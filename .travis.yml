@@ -1,35 +1,18 @@
 language: csharp
 sudo: required  
 dist: trusty  
+mono: none
 dotnet: 2.0.0
 env:
-  - CLI_VERSION=latest
   global:
     - ResolveNuGetPackageAssets=true
     - EnableNuGetPackageRestore=true
-addons:  
-  apt:
-    packages:
-    - gettext
-    - libcurl4-openssl-dev
-    - libicu-dev
-    - libssl-dev
-    - libunwind8
-    - zlib1g
-mono: none
 os:
   - linux
   - osx
-osx_image: xcode7.1
-branches:  
-  only:
-    - master
 solution: Afonsoft.Logger.sln
 install:
   - dotnet restore
   - nuget restore Afonsoft.Logger.sln
 script:
   - dotnet build
-cache:
-  directories:
-    - bin
