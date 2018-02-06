@@ -12,6 +12,14 @@ nuget:
   project_feed: true
   disable_publish_on_pr: true
 before_build:
-- cmd: nuget.exe restore -verbosity detailed C:\projects\Afonsoft.Logger\Afonsoft.Logger.sln
+- cmd: nuget.exe restore -verbosity detailed C:\projects\afonsoft-logger\Afonsoft.Logger.sln
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 build:
   verbosity: detailed

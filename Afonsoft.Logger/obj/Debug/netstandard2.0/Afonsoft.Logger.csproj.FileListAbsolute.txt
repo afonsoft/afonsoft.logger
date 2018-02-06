@@ -16,3 +16,4 @@ C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netst
 C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.AssemblyInfo.cs
 C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.dll
 C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.pdb
+C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.csprojResolveAssemblyReference.cache
