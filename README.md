@@ -1,6 +1,8 @@
 # Afonsoft.Logger 
 ==============================================
-
+<br/>
+netstandard2.0
+<br/>
 Waffle Issues<br/> [![Waffle.io - Columns and their card count](https://badge.waffle.io/afonsoft/afonsoft.logger.svg?columns=all)](https://waffle.io/afonsoft/afonsoft.logger)
 <br/>
 <table>
