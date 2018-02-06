@@ -10,7 +10,7 @@ env:
     - ResolveNuGetPackageAssets=true
     - EnableNuGetPackageRestore=true
 install:
-  - nuget restore KAfonsoft.Logger.sln
+  - nuget restore Afonsoft.Logger.sln
 script:
   - xbuild /p:Configuration=Release Afonsoft.Logger.sln
 cache:
