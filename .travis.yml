@@ -13,6 +13,5 @@ os:
 solution: Afonsoft.Logger.sln
 install:
   - dotnet restore
-  - nuget restore Afonsoft.Logger.sln
 script:
   - dotnet build
