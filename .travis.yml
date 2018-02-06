@@ -1,0 +1,18 @@
+language: csharp
+mono:
+  - latest
+os:
+  - linux
+  - osx
+solution: Afonsoft.Logger.sln
+env:
+  global:
+    - ResolveNuGetPackageAssets=true
+    - EnableNuGetPackageRestore=true
+install:
+  - nuget restore KAfonsoft.Logger.sln
+script:
+  - xbuild /p:Configuration=Release Afonsoft.Logger.sln
+cache:
+  directories:
+    - bin

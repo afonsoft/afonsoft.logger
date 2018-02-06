@@ -1,0 +1,9 @@
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.deps.json
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.dll
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.csproj.CoreCompileInputs.cache
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.AssemblyInfoInputs.cache
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.AssemblyInfo.cs
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.pdb
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.dll
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.pdb
+C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.xml
