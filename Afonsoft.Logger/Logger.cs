@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Afonsoft
 {
+    /// <summary>
+    /// Tools for logging
+    /// </summary>
     public class Logger
     {
         private static readonly object lockObject = new object();
@@ -17,6 +20,7 @@ namespace Afonsoft
         /// <summary>
         /// Create log only in Debug Mode
         /// </summary>
+        /// <param name="message">message for error</param>
         [System.Diagnostics.Conditional("DEBUG")]
         public static void Debug(string message)
         {
@@ -34,6 +38,7 @@ namespace Afonsoft
         /// <summary>
         /// Create log only in Debug Mode
         /// </summary>
+        /// <param name="message">message for error</param>
         [System.Diagnostics.Conditional("DEBUG")]
         public static void Debug<T>(string message)
         {
@@ -51,6 +56,8 @@ namespace Afonsoft
         /// <summary>
         /// Create log only in Debug Mode
         /// </summary>
+        /// <param name="message">message for error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         [System.Diagnostics.Conditional("DEBUG")]
         public static void Debug(string message, params object[] debugData)
         {
@@ -69,6 +76,8 @@ namespace Afonsoft
         /// Create log only in Debug Mode
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="message">message for error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         [System.Diagnostics.Conditional("DEBUG")]
         public static void Debug<T>(string message, params object[] debugData)
         {
@@ -84,8 +93,9 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="message">message for error</param>
         public static void Error(string message)
         {
             try
@@ -100,8 +110,9 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="message">message for error</param>
         public static void Error<T>(string message)
         {
             try
@@ -116,8 +127,9 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="exception">exception of error</param>
         public static void Error(Exception exception)
         {
             try
@@ -132,9 +144,10 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="exception">exception of error</param>
         public static void Error<T>(Exception exception)
         {
             try
@@ -149,8 +162,10 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="message">message for error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Error(string message, params object[] debugData)
         {
             try
@@ -165,9 +180,11 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="message">message for error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Error<T>(string message, params object[] debugData)
         {
             try
@@ -182,8 +199,10 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="message">message for error</param>
+        /// <param name="exception">exception of error</param>
         public static void Error(string message, Exception exception)
         {
             try
@@ -198,9 +217,11 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="message">message for error</param>
+        /// <param name="exception">exception of error</param>
         public static void Error<T>(string message, Exception exception)
         {
             try
@@ -215,8 +236,11 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="message">message for error</param>
+        /// <param name="exception">exception of error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Error(string message, Exception exception, params object[] debugData)
         {
             try
@@ -231,9 +255,12 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="message">message for error</param>
+        /// <param name="exception">exception of error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Error<T>(string message, Exception exception, params object[] debugData)
         {
             try
@@ -248,8 +275,10 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
+        /// <param name="exception">exception of error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Error(Exception exception, params object[] debugData)
         {
             try
@@ -264,9 +293,11 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Error log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="exception">exception of error</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Error<T>(Exception exception, params object[] debugData)
         {
             try
@@ -281,8 +312,9 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Info log
         /// </summary>
+        /// <param name="message">message for info</param>
         public static void Info(string message)
         {
             try
@@ -297,9 +329,10 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Info log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="message">message for info</param>
         public static void Info<T>(string message)
         {
             try
@@ -314,8 +347,10 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Info log
         /// </summary>
+        /// <param name="message">message for info</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Info(string message, params object[] debugData)
         {
             try
@@ -330,9 +365,11 @@ namespace Afonsoft
         }
 
         /// <summary>
-        /// Create log
+        /// Create Info log
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
+        /// <param name="message">message for info</param>
+        /// <param name="debugData">Any object to serialize json</param>
         public static void Info<T>(string message, params object[] debugData)
         {
             try
@@ -346,6 +383,15 @@ namespace Afonsoft
             }
         }
 
+        /// <summary>
+        /// InternalLog
+        /// </summary>
+        /// <typeparam name="T">Class</typeparam>
+        /// <param name="methodBase">methodBase of call</param>
+        /// <param name="type">Type of Logger</param>
+        /// <param name="message">message for log</param>
+        /// <param name="exception">exception of log</param>
+        /// <param name="debugData">Any object to serialize json</param>
         private static void Log<T>(MethodBase methodBase, string type, string message, Exception exception, params object[] debugData)
         {
             try
@@ -463,6 +509,11 @@ namespace Afonsoft
             }
         }
 
+        /// <summary>
+        /// Internal FixString - remove new line and break line
+        /// </summary>
+        /// <param name="value">String Text</param>
+        /// <returns>Text Fix</returns>
         private static string FixString(string value)
         {
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))

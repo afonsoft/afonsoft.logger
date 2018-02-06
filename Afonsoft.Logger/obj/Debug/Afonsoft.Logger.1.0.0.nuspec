@@ -17,7 +17,7 @@ tool for logging</description>
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.dll" target="lib\netstandard2.0\Afonsoft.Logger.dll" />
-    <file src="C:\Users\anogueira\Source\Repos\Afonsoft.Logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.xml" target="lib\netstandard2.0\Afonsoft.Logger.xml" />
+    <file src="C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.dll" target="lib\netstandard2.0\Afonsoft.Logger.dll" />
+    <file src="C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.xml" target="lib\netstandard2.0\Afonsoft.Logger.xml" />
   </files>
 </package>
