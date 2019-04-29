@@ -14,12 +14,16 @@ Tool for logging</Description>
     <Copyright>Afonsoft</Copyright>
     <PackageId>Afonsoft.Logger</PackageId>
     <PackageReleaseNotes>Ferramenta para criação de log 
-Tool for logging</PackageReleaseNotes>
+Tool for logging
+
+https://www.afonsoft.com.br</PackageReleaseNotes>
     <Version>2019.4.29</Version>
     <PackageProjectUrl>https://github.com/afonsoft/afonsoft.logger</PackageProjectUrl>
     <NeutralLanguage>pt-BR</NeutralLanguage>
     <AssemblyVersion>2019.4.29</AssemblyVersion>
     <FileVersion>2019.4.29</FileVersion>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl>https://github.com/afonsoft/afonsoft.logger</PackageLicenseUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
