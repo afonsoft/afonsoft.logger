@@ -17,3 +17,12 @@ C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netst
 C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.dll
 C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.pdb
 C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.csprojResolveAssemblyReference.cache
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.xml
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.deps.json
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.dll
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.pdb
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.csproj.CoreCompileInputs.cache
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.AssemblyInfoInputs.cache
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.AssemblyInfo.cs
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.dll
+C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\obj\Debug\netstandard2.0\Afonsoft.Logger.pdb

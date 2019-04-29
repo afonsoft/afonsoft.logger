@@ -8,166 +8,170 @@
             <summary>
             Tools for logging
             </summary>
+            <summary>
+            Classe para efetuar o Log
+            </summary>
+        </member>
+        <member name="M:Afonsoft.Logger.WriteFileAsync(System.String,System.String)">
+            <summary>
+            Criar um arquivo de texto
+            </summary>
+            <param name="name">Nome do Arquivo</param>
+            <param name="content">Conteudo do Arquivo</param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.WriteFileAsync(System.String,System.String,System.String)">
+            <summary>
+            Criar um arquivo de texto
+            </summary>
+            <param name="path">Caminho do Arquivo</param>
+            <param name="name">Nome do Arquivo</param>
+            <param name="content">Conteudo do Arquivo</param>
+            <returns></returns>
         </member>
         <member name="M:Afonsoft.Logger.Debug(System.String)">
             <summary>
             Create log only in Debug Mode
             </summary>
-            <param name="message">message for error</param>
+            <param name="message">Error Message</param>
         </member>
         <member name="M:Afonsoft.Logger.Debug``1(System.String)">
             <summary>
             Create log only in Debug Mode
             </summary>
-            <param name="message">message for error</param>
+            <typeparam name="T">Classe</typeparam>
+            <param name="message">Error Message</param>
         </member>
         <member name="M:Afonsoft.Logger.Debug(System.String,System.Object[])">
             <summary>
             Create log only in Debug Mode
             </summary>
-            <param name="message">message for error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Debug``1(System.String,System.Object[])">
             <summary>
             Create log only in Debug Mode
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="message">message for error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error(System.String)">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="message">message for error</param>
+            <param name="message">Error Message</param>
         </member>
         <member name="M:Afonsoft.Logger.Error``1(System.String)">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="message">message for error</param>
+            <typeparam name="T">Classe</typeparam>
+            <param name="message">Error Message</param>
         </member>
         <member name="M:Afonsoft.Logger.Error(System.Exception)">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="exception">exception of error</param>
+            <param name="exception">Exception</param>
         </member>
         <member name="M:Afonsoft.Logger.Error``1(System.Exception)">
             <summary>
-            Create Error log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="exception">exception of error</param>
+            <param name="exception">Exception</param>
         </member>
         <member name="M:Afonsoft.Logger.Error(System.String,System.Object[])">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="message">message for error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error``1(System.String,System.Object[])">
             <summary>
-            Create Error log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="message">message for error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error(System.String,System.Exception)">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="message">message for error</param>
-            <param name="exception">exception of error</param>
+            <param name="message">Error Message</param>
+            <param name="exception">Exception Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error``1(System.String,System.Exception)">
             <summary>
-            Create Error log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="message">message for error</param>
-            <param name="exception">exception of error</param>
+            <param name="message">Error Message</param>
+            <param name="exception">Exception Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error(System.String,System.Exception,System.Object[])">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="message">message for error</param>
-            <param name="exception">exception of error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="exception">Exception Error</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error``1(System.String,System.Exception,System.Object[])">
             <summary>
-            Create Error log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="message">message for error</param>
-            <param name="exception">exception of error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="exception">Exception Error</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error(System.Exception,System.Object[])">
             <summary>
-            Create Error log
+            Create log
             </summary>
-            <param name="exception">exception of error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="exception">Exception Error</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Error``1(System.Exception,System.Object[])">
             <summary>
-            Create Error log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="exception">exception of error</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="exception">Exception Error</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Info(System.String)">
             <summary>
-            Create Info log
+            Create log
             </summary>
-            <param name="message">message for info</param>
+            <param name="message">Error Message</param>
         </member>
         <member name="M:Afonsoft.Logger.Info``1(System.String)">
             <summary>
-            Create Info log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="message">message for info</param>
+            <param name="message">Error Message</param>
         </member>
         <member name="M:Afonsoft.Logger.Info(System.String,System.Object[])">
             <summary>
-            Create Info log
+            Create log
             </summary>
-            <param name="message">message for info</param>
-            <param name="debugData">Any object to serialize json</param>
+            <param name="message">Error Message</param>
+            <param name="debugData">Object Error</param>
         </member>
         <member name="M:Afonsoft.Logger.Info``1(System.String,System.Object[])">
             <summary>
-            Create Info log
+            Create log
             </summary>
             <typeparam name="T">Classe</typeparam>
-            <param name="message">message for info</param>
-            <param name="debugData">Any object to serialize json</param>
-        </member>
-        <member name="M:Afonsoft.Logger.Log``1(System.Reflection.MethodBase,System.String,System.String,System.Exception,System.Object[])">
-            <summary>
-            InternalLog
-            </summary>
-            <typeparam name="T">Class</typeparam>
-            <param name="methodBase">methodBase of call</param>
-            <param name="type">Type of Logger</param>
-            <param name="message">message for log</param>
-            <param name="exception">exception of log</param>
-            <param name="debugData">Any object to serialize json</param>
-        </member>
-        <member name="M:Afonsoft.Logger.FixString(System.String)">
-            <summary>
-            Internal FixString - remove new line and break line
-            </summary>
-            <param name="value">String Text</param>
-            <returns>Text Fix</returns>
+            <param name="message">Error Message</param>
+            <param name="debugData">Object Error</param>
         </member>
     </members>
 </doc>

@@ -6,18 +6,32 @@
     <authors>Afonso Dutra Nogueira Filho</authors>
     <owners>Afonso Dutra Nogueira Filho</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ferramenta para criação de log 
-tool for logging</description>
-    <tags>logging tool ferramenta log</tags>
+    <projectUrl>https://github.com/afonsoft/afonsoft.logger</projectUrl>
+    <description>Ferramenta para criação de log 
+Tool for logging</description>
+    <releaseNotes>Ferramenta para criação de log 
+Tool for logging</releaseNotes>
+    <copyright>Afonsoft</copyright>
+    <tags>logging tool ferramenta log logger</tags>
     <repository url="https://github.com/afonsoft/afonsoft.logger" />
     <dependencies>
+      <group targetFramework=".NETFramework4.7">
+        <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp2.2">
+        <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+      </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.dll" target="lib\netstandard2.0\Afonsoft.Logger.dll" />
-    <file src="C:\Users\anogueira\Source\Repos\afonsoft.logger2\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.xml" target="lib\netstandard2.0\Afonsoft.Logger.xml" />
+    <file src="C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\net47\Afonsoft.Logger.dll" target="lib\net47\Afonsoft.Logger.dll" />
+    <file src="C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\net47\Afonsoft.Logger.xml" target="lib\net47\Afonsoft.Logger.xml" />
+    <file src="C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netcoreapp2.2\Afonsoft.Logger.dll" target="lib\netcoreapp2.2\Afonsoft.Logger.dll" />
+    <file src="C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netcoreapp2.2\Afonsoft.Logger.xml" target="lib\netcoreapp2.2\Afonsoft.Logger.xml" />
+    <file src="C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.dll" target="lib\netstandard2.0\Afonsoft.Logger.dll" />
+    <file src="C:\Users\anogueira\Documents\GitHub\afonsoft.logger\Afonsoft.Logger\bin\Debug\netstandard2.0\Afonsoft.Logger.xml" target="lib\netstandard2.0\Afonsoft.Logger.xml" />
   </files>
 </package>

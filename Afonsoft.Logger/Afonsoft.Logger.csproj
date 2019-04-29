@@ -1,15 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <TargetFrameworks>netstandard2.0;net47;netcoreapp2.2</TargetFrameworks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <Authors>Afonso Dutra Nogueira Filho</Authors>
     <Company>Afonsoft</Company>
-    <Description>ferramenta para criação de log 
-tool for logging</Description>
+    <Description>Ferramenta para criação de log 
+Tool for logging</Description>
     <RepositoryUrl>https://github.com/afonsoft/afonsoft.logger</RepositoryUrl>
-    <PackageTags>logging tool ferramenta log</PackageTags>
+    <PackageTags>logging tool ferramenta log logger</PackageTags>
+    <Product>Afonsoft.Logger</Product>
+    <Copyright>Afonsoft</Copyright>
+    <PackageId>Afonsoft.Logger</PackageId>
+    <PackageReleaseNotes>Ferramenta para criação de log 
+Tool for logging</PackageReleaseNotes>
+    <Version>2019.4.29</Version>
+    <PackageProjectUrl>https://github.com/afonsoft/afonsoft.logger</PackageProjectUrl>
+    <NeutralLanguage>pt-BR</NeutralLanguage>
+    <AssemblyVersion>2019.4.29</AssemblyVersion>
+    <FileVersion>2019.4.29</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,7 +27,6 @@ tool for logging</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
-
 </Project>
