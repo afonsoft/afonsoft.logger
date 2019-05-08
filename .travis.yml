@@ -1,8 +1,8 @@
 language: csharp
 sudo: required  
-dist: trusty  
-mono: none
-dotnet: 2.0.0
+dist: xenial  
+mono: latest
+dotnet: 2.2.203
 env:
   global:
     - ResolveNuGetPackageAssets=true
@@ -10,6 +10,7 @@ env:
 os:
   - linux
   - osx
+  - windows
 solution: Afonsoft.Logger.sln
 install:
   - dotnet restore
