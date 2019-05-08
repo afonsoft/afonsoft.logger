@@ -2,7 +2,7 @@ language: csharp
 sudo: required  
 dist: xenial  
 mono: latest
-dotnet: 2.2
+dotnet: 2.2.203
 env:
   global:
     - ResolveNuGetPackageAssets=true
@@ -16,4 +16,4 @@ solution: Afonsoft.Logger.sln
 install:
   - dotnet restore
 script:
-  - dotnet msbuild -p:TargetFramework=netcoreapp2.0
+  - dotnet build Afonsoft.Logger.sln -f netstandard2.0
