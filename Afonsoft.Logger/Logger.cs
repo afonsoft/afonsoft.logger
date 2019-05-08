@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 namespace Afonsoft
 {
     /// <summary>
-    /// Tools for logging
-    /// </summary>
-    /// <summary>
     /// Classe para efetuar o Log
+    /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
     public class Logger
     {
