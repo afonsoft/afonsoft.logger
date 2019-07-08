@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions.Internal;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Afonsoft
 {
@@ -12,75 +10,28 @@ namespace Afonsoft
     /// Classe para efetuar o Log
     /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
-    public class Logger
+    public class Logger<Trepository> : ILogger where Trepository : LoggerRepository
     {
-
-        private static readonly object lockObject = new object();
-        private const int MaxEventLogEntryLength = 30000;
+        private IExternalScopeProvider ScopeProvider { get; set; }
+        private Func<string, LogLevel, bool> _filter;
+        private string _categoryName;
+        private Trepository _repository;
 
         private Logger()
         {
         }
 
         /// <summary>
-        /// Criar um arquivo de texto
+        /// 
         /// </summary>
-        /// <param name="name">Nome do Arquivo</param>
-        /// <param name="content">Conteudo do Arquivo</param>
-        /// <returns></returns>
-        public static Task<Boolean> WriteFileAsync(string name, string content)
+        /// <param name="repository"></param>
+        /// <param name="filter"></param>
+        /// <param name="categoryName"></param>
+        public Logger(Trepository repository, Func<string, LogLevel, bool> filter, string categoryName)
         {
-            return WriteFileAsync(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), name, content);
-        }
-
-        /// <summary>
-        /// Criar um arquivo de texto
-        /// </summary>
-        /// <param name="path">Caminho do Arquivo</param>
-        /// <param name="name">Nome do Arquivo</param>
-        /// <param name="content">Conteudo do Arquivo</param>
-        /// <returns></returns>
-        public static Task<Boolean> WriteFileAsync(string path, string name, string content)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    if (string.IsNullOrEmpty(path))
-                        path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
-
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        if (path.IndexOf("file:\\", StringComparison.Ordinal) >= 0)
-                            path = path.Replace("file:\\", "");
-
-                        if (path.IndexOf("bin", StringComparison.Ordinal) >= 0)
-                            path = path.Replace("\\bin", "");
-
-                        if (!Directory.Exists(path))
-                            Directory.CreateDirectory(path);
-
-                        if (string.IsNullOrEmpty(name))
-                            name = DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".txt";
-
-                        string xmlFilePath = Path.Combine(path, name);
-                        using (FileStream file = new FileStream(xmlFilePath, FileMode.Append, FileAccess.Write, FileShare.None))
-                        {
-                            using (StreamWriter sw = new StreamWriter(file, Encoding.UTF8))
-                            {
-                                sw.Write(content);
-                                sw.Flush();
-                            }
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-
-                return true;
-            });
+            _repository = repository;
+            _filter = filter;
+            _categoryName = categoryName;
         }
 
         /// <summary>
@@ -88,16 +39,16 @@ namespace Afonsoft
         /// </summary>
         /// <param name="message">Error Message</param>
         [Conditional("DEBUG")]
-        public static void Debug(string message)
+        public  void Debug(string message)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
             }
             catch
             {
-                LogAsync<Logger>(null, "DEBUG    ", message, null, null);
+                _repository.LogAsync<Trepository>(null, "DEBUG    ", message, null, null);
             }
         }
 
@@ -107,16 +58,16 @@ namespace Afonsoft
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="message">Error Message</param>
         [Conditional("DEBUG")]
-        public static void Debug<T>(string message) where T : class
+        public  void Debug<T>(string message)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
             }
             catch
             {
-                LogAsync<T>(null, "DEBUG    ", message, null, null);
+                _repository.LogAsync<T>(null, "DEBUG    ", message, null, null);
             }
         }
 
@@ -126,16 +77,16 @@ namespace Afonsoft
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
         [Conditional("DEBUG")]
-        public static void Debug(string message, params object[] debugData)
+        public  void Debug(string message, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
             }
             catch
             {
-                LogAsync<Logger>(null, "DEBUG    ", message, null, debugData);
+                _repository.LogAsync<Trepository>(null, "DEBUG    ", message, null, debugData);
             }
         }
 
@@ -146,16 +97,16 @@ namespace Afonsoft
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
         [Conditional("DEBUG")]
-        public static void Debug<T>(string message, params object[] debugData) where T : class
+        public  void Debug<T>(string message, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
             }
             catch
             {
-                LogAsync<T>(null, "DEBUG    ", message, null, debugData);
+                _repository.LogAsync<T>(null, "DEBUG    ", message, null, debugData);
             }
         }
 
@@ -163,16 +114,16 @@ namespace Afonsoft
         /// Create log
         /// </summary>
         /// <param name="message">Error Message</param>
-        public static void Error(string message)
+        public  void Error(string message)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, null);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, null);
             }
             catch
             {
-                LogAsync<Logger>(null, "ERROR    ", message, null, null);
+                _repository.LogAsync<Trepository>(null, "ERROR    ", message, null, null);
             }
         }
 
@@ -181,16 +132,16 @@ namespace Afonsoft
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="message">Error Message</param>
-        public static void Error<T>(string message) where T : class
+        public  void Error<T>(string message)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, null);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, null);
             }
             catch
             {
-                LogAsync<T>(null, "ERROR    ", message, null, null);
+                _repository.LogAsync<T>(null, "ERROR    ", message, null, null);
             }
         }
 
@@ -198,16 +149,16 @@ namespace Afonsoft
         /// Create log
         /// </summary>
         /// <param name="exception">Exception</param>
-        public static void Error(Exception exception)
+        public  void Error(Exception exception)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, null);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, null);
             }
             catch
             {
-                LogAsync<Logger>(null, "ERROR    ", null, exception, null);
+                _repository.LogAsync<Trepository>(null, "ERROR    ", null, exception, null);
             }
         }
 
@@ -216,16 +167,16 @@ namespace Afonsoft
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="exception">Exception</param>
-        public static void Error<T>(Exception exception) where T : class
+        public  void Error<T>(Exception exception)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, null);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, null);
             }
             catch
             {
-                LogAsync<T>(null, "ERROR    ", null, exception, null);
+                _repository.LogAsync<T>(null, "ERROR    ", null, exception, null);
             }
         }
 
@@ -234,16 +185,16 @@ namespace Afonsoft
         /// </summary>
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
-        public static void Error(string message, params object[] debugData)
+        public  void Error(string message, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, debugData);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, debugData);
             }
             catch
             {
-                LogAsync<Logger>(null, "ERROR    ", message, null, debugData);
+                _repository.LogAsync<Trepository>(null, "ERROR    ", message, null, debugData);
             }
         }
 
@@ -253,16 +204,16 @@ namespace Afonsoft
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
-        public static void Error<T>(string message, params object[] debugData) where T : class
+        public  void Error<T>(string message, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, debugData);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, debugData);
             }
             catch
             {
-                LogAsync<T>(null, "ERROR    ", message, null, debugData);
+                _repository.LogAsync<T>(null, "ERROR    ", message, null, debugData);
             }
         }
 
@@ -271,16 +222,16 @@ namespace Afonsoft
         /// </summary>
         /// <param name="message">Error Message</param>
         /// <param name="exception">Exception Error</param>
-        public static void Error(string message, Exception exception)
+        public  void Error(string message, Exception exception)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, null);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, null);
             }
             catch
             {
-                LogAsync<Logger>(null, "ERROR    ", message, exception, null);
+                _repository.LogAsync<Trepository>(null, "ERROR    ", message, exception, null);
             }
         }
 
@@ -290,16 +241,16 @@ namespace Afonsoft
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="message">Error Message</param>
         /// <param name="exception">Exception Error</param>
-        public static void Error<T>(string message, Exception exception) where T : class
+        public  void Error<T>(string message, Exception exception)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, null);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, null);
             }
             catch
             {
-                LogAsync<T>(null, "ERROR    ", message, exception, null);
+                _repository.LogAsync<T>(null, "ERROR    ", message, exception, null);
             }
         }
 
@@ -309,16 +260,16 @@ namespace Afonsoft
         /// <param name="message">Error Message</param>
         /// <param name="exception">Exception Error</param>
         /// <param name="debugData">Object Error</param>
-        public static void Error(string message, Exception exception, params object[] debugData)
+        public  void Error(string message, Exception exception, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
             }
             catch
             {
-                LogAsync<Logger>(null, "ERROR    ", message, exception, debugData);
+                _repository.LogAsync<Trepository>(null, "ERROR    ", message, exception, debugData);
             }
         }
 
@@ -329,16 +280,16 @@ namespace Afonsoft
         /// <param name="message">Error Message</param>
         /// <param name="exception">Exception Error</param>
         /// <param name="debugData">Object Error</param>
-        public static void Error<T>(string message, Exception exception, params object[] debugData) where T : class
+        public  void Error<T>(string message, Exception exception, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
             }
             catch
             {
-                LogAsync<T>(null, "ERROR    ", message, exception, debugData);
+                _repository.LogAsync<T>(null, "ERROR    ", message, exception, debugData);
             }
         }
 
@@ -347,16 +298,16 @@ namespace Afonsoft
         /// </summary>
         /// <param name="exception">Exception Error</param>
         /// <param name="debugData">Object Error</param>
-        public static void Error(Exception exception, params object[] debugData)
+        public  void Error(Exception exception, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, debugData);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, debugData);
             }
             catch
             {
-                LogAsync<Logger>(null, "ERROR    ", null, exception, debugData);
+                _repository.LogAsync<Trepository>(null, "ERROR    ", null, exception, debugData);
             }
         }
 
@@ -366,16 +317,16 @@ namespace Afonsoft
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="exception">Exception Error</param>
         /// <param name="debugData">Object Error</param>
-        public static void Error<T>(Exception exception, params object[] debugData) where T : class
+        public  void Error<T>(Exception exception, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, debugData);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, debugData);
             }
             catch
             {
-                LogAsync<T>(null, "ERROR    ", null, exception, debugData);
+                _repository.LogAsync<T>(null, "ERROR    ", null, exception, debugData);
             }
         }
 
@@ -383,16 +334,16 @@ namespace Afonsoft
         /// Create log
         /// </summary>
         /// <param name="message">Error Message</param>
-        public static void Info(string message)
+        public  void Info(string message)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
             }
             catch
             {
-                LogAsync<Logger>(null, "INFO     ", message, null, null);
+                _repository.LogAsync<Trepository>(null, "INFO     ", message, null, null);
             }
         }
 
@@ -401,16 +352,16 @@ namespace Afonsoft
         /// </summary>
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="message">Error Message</param>
-        public static void Info<T>(string message) where T : class
+        public  void Info<T>(string message)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
             }
             catch
             {
-                LogAsync<T>(null, "INFO     ", message, null, null);
+                _repository.LogAsync<T>(null, "INFO     ", message, null, null);
             }
         }
 
@@ -420,16 +371,16 @@ namespace Afonsoft
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
 
-        public static void Info(string message, params object[] debugData)
+        public  void Info(string message, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<Logger>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, debugData);
+                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, debugData);
             }
             catch
             {
-                LogAsync<Logger>(null, "INFO     ", message, null, debugData);
+                _repository.LogAsync<Trepository>(null, "INFO     ", message, null, debugData);
             }
         }
 
@@ -439,248 +390,103 @@ namespace Afonsoft
         /// <typeparam name="T">Classe</typeparam>
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
-        public static void Info<T>(string message, params object[] debugData) where T : class
+        public  void Info<T>(string message, params object[] debugData)
         {
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, debugData);
+                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, debugData);
             }
             catch
             {
-                LogAsync<T>(null, "INFO     ", message, null, debugData);
+                _repository.LogAsync<T>(null, "INFO     ", message, null, debugData);
             }
         }
 
-        private static void LogAsync<T>(MethodBase methodBase, string type, string message, Exception exception, params object[] debugData) where T : class
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="logLevel"></param>
+        /// <param name="eventId"></param>
+        /// <param name="state"></param>
+        /// <param name="exception"></param>
+        /// <param name="formatter"></param>
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            Task.Factory.StartNew(() =>
+            var logBuilder = new StringBuilder();
+
+            if (!IsEnabled(logLevel))
             {
-                try
+                return;
+            }
+            if (formatter == null)
+            {
+                throw new ArgumentNullException(nameof(formatter));
+            }
+            var message = formatter(state, exception);
+            if (!string.IsNullOrEmpty(message))
+            {
+                logBuilder.Append(message);
+                logBuilder.Append(Environment.NewLine);
+            }
+
+            GetScope(logBuilder);
+
+            switch (logLevel)
+            {
+                case LogLevel.Debug:
+                case LogLevel.Warning:
+                    Debug<TState>(logBuilder.ToString(), eventId);
+                    break;
+                case LogLevel.Critical:
+                case LogLevel.Error:
+                    Error<TState>(logBuilder.ToString(), exception, new object[] { eventId });
+                    break;
+                case LogLevel.Information:
+                case LogLevel.Trace:
+                    Info<TState>(logBuilder.ToString(), eventId);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void GetScope(StringBuilder stringBuilder)
+        {
+            var scopeProvider = ScopeProvider;
+            if (scopeProvider != null)
+            {
+                var initialLength = stringBuilder.Length;
+
+                scopeProvider.ForEachScope((scope, state) =>
                 {
-                    string StackTraces = "";
-                    string ExceptionMessages = "";
+                    var (builder, length) = state;
+                    var first = length == builder.Length;
+                    builder.Append(first ? "=> " : " => ").Append(scope);
+                }, (stringBuilder, initialLength));
 
-
-                    Type typeObj = methodBase != null ? methodBase.DeclaringType : typeof(T);
-
-                    Assembly assembly;
-                    try
-                    {
-                        assembly = typeObj!= null ? Assembly.GetAssembly(typeObj) : Assembly.GetExecutingAssembly();
-                    }
-                    catch
-                    {
-                        assembly = Assembly.GetExecutingAssembly();
-                    }
-
- 
-                    var SystemName = assembly.GetName().Name;
-                    var SystemVersion = assembly.GetName().Version.ToString();
-
-                    var ClassName = methodBase != null && typeObj != null ? typeObj.Name + "." + methodBase.Name + "()" : (typeObj != null ? typeObj.Name : SystemName);
-
-                    string pathExe = Path.GetDirectoryName(assembly.GetName().CodeBase);
-
-                    Exception TmpException = exception;
-
-                    if (TmpException != null)
-                    {
-                        while (TmpException != null)
-                        {
-
-                            string Traces = "";
-                            try
-                            {
-                                StackFrame[] trace = new StackTrace(TmpException, true).GetFrames();
-                                if (trace != null)
-                                {
-                                    foreach (StackFrame stack in trace)
-                                    {
-                                        if (stack.GetFileLineNumber() > 0 && stack.GetMethod() != null)
-                                        {
-                                            Traces += $"--> METHOD: {stack.GetMethod().Name} ({stack.GetFileLineNumber()},{stack.GetFileColumnNumber()}) ";
-                                        }
-                                    }
-                                }
-                            }
-                            catch
-                            {
-                                //
-                            }
-                            ExceptionMessages += TmpException.Message + " ";
-                            StackTraces += String.IsNullOrEmpty(Traces) ? TmpException.StackTrace : Traces;
-                            TmpException = TmpException.InnerException;
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(pathExe))
-                    {
-                        if (pathExe.IndexOf("file:\\", StringComparison.Ordinal) >= 0)
-                            pathExe = pathExe.Replace("file:\\", "");
-
-                        if (pathExe.IndexOf("bin", StringComparison.Ordinal) >= 0)
-                            pathExe = pathExe.Replace("\\bin", "");
-
-                        string path = Path.Combine(pathExe, "LOGS");
-
-                        if (!Directory.Exists(path))
-                        {
-                            try
-                            {
-                                Directory.CreateDirectory(path);
-                            }
-                            catch
-                            {
-                                path = pathExe;
-                            }
-                        }
-
-                        string FileName = Path.Combine(path, DateTime.Now.ToString("yyyy-MM-dd") + ".log");
-
-                        lock (lockObject)
-                        {
-                            using (StreamWriter sw = new StreamWriter(FileName, true, Encoding.UTF8))
-                            {
-                                string messageToSave;
-                                if (!string.IsNullOrEmpty(message))
-                                {
-                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + type + " | " + SystemVersion + " | " + ClassName + " | " + FixString(message);
-                                    sw.WriteLine(messageToSave);
-                                    if (Environment.UserInteractive)
-                                    {
-                                        Console.WriteLine(messageToSave);
-                                        Trace.WriteLine(messageToSave);
-                                    }
-                                }
-
-                                if (!String.IsNullOrEmpty(ExceptionMessages))
-                                {
-                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "EXCEPTION | " + SystemVersion + " | " + ClassName + " | " + FixString(ExceptionMessages);
-                                    sw.WriteLine(messageToSave);
-                                    if (Environment.UserInteractive)
-                                    {
-                                        Console.WriteLine(messageToSave);
-                                        Trace.WriteLine(messageToSave);
-                                    }
-                                }
-
-                                if (!String.IsNullOrEmpty(StackTraces))
-                                {
-                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "STACK     | " + SystemVersion + " | " + ClassName + " | " + FixString(StackTraces);
-                                    sw.WriteLine(messageToSave);
-                                    if (Environment.UserInteractive)
-                                    {
-                                        Console.WriteLine(messageToSave);
-                                        Trace.WriteLine(messageToSave);
-                                    }
-                                }
-
-                                if (debugData != null)
-                                {
-                                    foreach (var data in debugData)
-                                    {
-                                        messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "OBJECT    | " + SystemVersion + " | " + ClassName + " | " + data.GetType().Name + " --> " + JsonConvert.SerializeObject(data);
-                                        sw.WriteLine(messageToSave);
-
-                                        if (Environment.UserInteractive)
-                                        {
-                                            Console.WriteLine(messageToSave);
-                                            Trace.WriteLine(messageToSave);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (string.IsNullOrWhiteSpace(SystemName) && typeObj != null)
-                        SystemName = methodBase != null ? typeObj.Name : SystemName;
-
-                    if (string.IsNullOrWhiteSpace(SystemName))
-                        SystemName = "Afonsoft.Logger";
-
-                    if (CheckSourceExists(SystemName, SystemName))
-                    {
-                        if (!string.IsNullOrEmpty(message))
-                        {
-#if NET47
-                            EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(message), EventLogEntryType.Information);
-#endif
-                        }
-
-                        if (!string.IsNullOrEmpty(StackTraces))
-                        {
-#if NET47
-                            EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(StackTraces), EventLogEntryType.Warning);
-#endif
-                        }
-
-                        if (!string.IsNullOrEmpty(ExceptionMessages))
-                        {
-#if NET47
-                            EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(ExceptionMessages), EventLogEntryType.Error);
-#endif
-                        }
-
-                        if (debugData != null)
-                        {
-#if NET47
-                            foreach (var data in debugData)
-                                EventLog.WriteEntry(SystemName, data.GetType().Name + " --> " + JsonConvert.SerializeObject(data), EventLogEntryType.Information);
-#endif
-                        }
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-            });
-        }
-
-        private static bool CheckSourceExists(string source, string eventLogName)
-        {
-#if NET47
-            if (EventLog.SourceExists(source))
-            {
-                EventLog evLog = new EventLog { Source = source };
-                if (evLog.Log != eventLogName)
-                {
-                    EventLog.DeleteEventSource(source);
-                }
+                stringBuilder.AppendLine();
             }
-
-            if (!EventLog.SourceExists(source))
-            {
-                EventLog.CreateEventSource(source, eventLogName);
-                EventLog.WriteEntry(source, $"Event Log Created '{eventLogName}'/'{source}'", EventLogEntryType.Information);
-            }
-
-            return EventLog.SourceExists(source);
-#else
-            return false;
-#endif
         }
 
-        private static string FixString(string value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        public bool IsEnabled(LogLevel logLevel)
         {
-            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-                return "";
-
-            return value.Replace(Environment.NewLine, " - ");
+            return _filter == null || _filter(_categoryName, logLevel);
         }
 
-        private static string EnsureLogMessageLimit(string logMessage)
-        {
-            if (logMessage.Length > MaxEventLogEntryLength)
-            {
-                string truncateWarningText = $"... | Log Truncated [ Limit: {MaxEventLogEntryLength} ]";
-                // Set the message to the max minus enough room to add the truncate warning.
-                logMessage = logMessage.Substring(0, MaxEventLogEntryLength - truncateWarningText.Length);
-                logMessage = $"{logMessage}{truncateWarningText}";
-            }
-            return logMessage;
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public IDisposable BeginScope<TState>(TState state) => ScopeProvider?.Push(state) ?? NullScope.Instance;
+
     }
 }
