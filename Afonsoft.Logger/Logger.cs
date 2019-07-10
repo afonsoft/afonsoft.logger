@@ -10,15 +10,16 @@ namespace Afonsoft
     /// Classe para efetuar o Log
     /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
-    public class Logger<Trepository> : ILogger where Trepository : LoggerRepository
+    public class Logger<T> : ILogger
     {
         private IExternalScopeProvider ScopeProvider { get; set; }
         private Func<string, LogLevel, bool> _filter;
         private string _categoryName;
-        private Trepository _repository;
+        private LoggerRepository _repository;
 
         private Logger()
         {
+            _categoryName = typeof(T).ToString();
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace Afonsoft
         /// <param name="repository"></param>
         /// <param name="filter"></param>
         /// <param name="categoryName"></param>
-        public Logger(Trepository repository, Func<string, LogLevel, bool> filter, string categoryName)
+        public Logger(LoggerRepository repository, Func<string, LogLevel, bool> filter, string categoryName)
         {
             _repository = repository;
             _filter = filter;
@@ -44,25 +45,6 @@ namespace Afonsoft
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "DEBUG    ", message, null, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log only in Debug Mode
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        [Conditional("DEBUG")]
-        public  void Debug<T>(string message)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
                 _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
             }
             catch
@@ -70,6 +52,7 @@ namespace Afonsoft
                 _repository.LogAsync<T>(null, "DEBUG    ", message, null, null);
             }
         }
+
 
         /// <summary>
         /// Create log only in Debug Mode
@@ -82,26 +65,6 @@ namespace Afonsoft
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "DEBUG    ", message, null, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log only in Debug Mode
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        /// <param name="debugData">Object Error</param>
-        [Conditional("DEBUG")]
-        public  void Debug<T>(string message, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
                 _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
             }
             catch
@@ -110,29 +73,12 @@ namespace Afonsoft
             }
         }
 
+
         /// <summary>
         /// Create log
         /// </summary>
         /// <param name="message">Error Message</param>
         public  void Error(string message)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, null);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "ERROR    ", message, null, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        public  void Error<T>(string message)
         {
             try
             {
@@ -145,29 +91,12 @@ namespace Afonsoft
             }
         }
 
+
         /// <summary>
         /// Create log
         /// </summary>
         /// <param name="exception">Exception</param>
         public  void Error(Exception exception)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, null);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "ERROR    ", null, exception, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="exception">Exception</param>
-        public  void Error<T>(Exception exception)
         {
             try
             {
@@ -180,31 +109,13 @@ namespace Afonsoft
             }
         }
 
+
         /// <summary>
         /// Create log
         /// </summary>
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
         public  void Error(string message, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "ERROR    ", message, null, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Error<T>(string message, params object[] debugData)
         {
             try
             {
@@ -223,25 +134,6 @@ namespace Afonsoft
         /// <param name="message">Error Message</param>
         /// <param name="exception">Exception Error</param>
         public  void Error(string message, Exception exception)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, null);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "ERROR    ", message, exception, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        /// <param name="exception">Exception Error</param>
-        public  void Error<T>(string message, Exception exception)
         {
             try
             {
@@ -265,26 +157,6 @@ namespace Afonsoft
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "ERROR    ", message, exception, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        /// <param name="exception">Exception Error</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Error<T>(string message, Exception exception, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
                 _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
             }
             catch
@@ -299,25 +171,6 @@ namespace Afonsoft
         /// <param name="exception">Exception Error</param>
         /// <param name="debugData">Object Error</param>
         public  void Error(Exception exception, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "ERROR    ", null, exception, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="exception">Exception Error</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Error<T>(Exception exception, params object[] debugData)
         {
             try
             {
@@ -339,24 +192,6 @@ namespace Afonsoft
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "INFO     ", message, null, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        public  void Info<T>(string message)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
                 _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
             }
             catch
@@ -372,25 +207,6 @@ namespace Afonsoft
         /// <param name="debugData">Object Error</param>
 
         public  void Info(string message, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<Trepository>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<Trepository>(null, "INFO     ", message, null, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <typeparam name="T">Classe</typeparam>
-        /// <param name="message">Error Message</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Info<T>(string message, params object[] debugData)
         {
             try
             {
@@ -437,15 +253,15 @@ namespace Afonsoft
             {
                 case LogLevel.Debug:
                 case LogLevel.Warning:
-                    Debug<TState>(logBuilder.ToString(), eventId);
+                    Debug(logBuilder.ToString(), eventId);
                     break;
                 case LogLevel.Critical:
                 case LogLevel.Error:
-                    Error<TState>(logBuilder.ToString(), exception, new object[] { eventId });
+                    Error(logBuilder.ToString(), exception, new object[] { eventId });
                     break;
                 case LogLevel.Information:
                 case LogLevel.Trace:
-                    Info<TState>(logBuilder.ToString(), eventId);
+                    Info(logBuilder.ToString(), eventId);
                     break;
                 default:
                     break;

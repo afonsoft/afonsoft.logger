@@ -1,14 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Afonsoft
 {
     /// <summary>
     /// LoggerProvider : ILoggerProvider 
     /// </summary>
-    public class LoggerProvider : ILoggerProvider
+    public class LoggerProvider<T>: ILoggerProvider
     {
         private Func<string, LogLevel, bool> _filter;
         private LoggerRepository _repository;
@@ -25,7 +23,25 @@ namespace Afonsoft
             _categoryName = categoryName;
             _repository = new LoggerRepository();
         }
+        /// <summary>
+        /// LoggerProvider
+        /// </summary>
+        /// <param name="filter"></param>
+        public LoggerProvider(Func<string, LogLevel, bool> filter)
+        {
+            _filter = filter;
+            _categoryName = typeof(T).ToString();
+            _repository = new LoggerRepository();
+        }
 
+        /// <summary>
+        /// LoggerProvider
+        /// </summary>
+        public LoggerProvider()
+        {
+            _categoryName = typeof(T).ToString();
+            _repository = new LoggerRepository();
+        }
 
         /// <summary>
         /// CreateLogger
@@ -35,7 +51,17 @@ namespace Afonsoft
         public ILogger CreateLogger(string categoryName)
         {
             _repository = new LoggerRepository();
-            return new Logger<LoggerRepository>(_repository, (category, logLevel) => logLevel >= LogLevel.Debug, categoryName);
+            return new Logger<T>(_repository, _filter, categoryName);
+        }
+
+        /// <summary>
+        /// CreateLogger
+        /// </summary>
+        /// <returns></returns>
+        public ILogger CreateLogger()
+        {
+            _repository = new LoggerRepository();
+            return new Logger<T>(_repository, _filter, _categoryName);
         }
 
         /// <summary>
@@ -48,7 +74,7 @@ namespace Afonsoft
         {
             _filter = filter;
             _repository = new LoggerRepository();
-            return new Logger<LoggerRepository>(_repository, filter, categoryName);
+            return new Logger<T>(_repository, filter, categoryName);
         }
 
         /// <summary>

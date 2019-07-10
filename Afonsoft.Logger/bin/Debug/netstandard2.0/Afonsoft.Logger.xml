@@ -10,7 +10,7 @@
             HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
             </summary>
         </member>
-        <member name="M:Afonsoft.Logger`1.#ctor(`0,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean},System.String)">
+        <member name="M:Afonsoft.Logger`1.#ctor(Afonsoft.LoggerRepository,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean},System.String)">
             <summary>
             
             </summary>
@@ -24,25 +24,10 @@
             </summary>
             <param name="message">Error Message</param>
         </member>
-        <member name="M:Afonsoft.Logger`1.Debug``1(System.String)">
-            <summary>
-            Create log only in Debug Mode
-            </summary>
-            <typeparam name="T">Classe</typeparam>
-            <param name="message">Error Message</param>
-        </member>
         <member name="M:Afonsoft.Logger`1.Debug(System.String,System.Object[])">
             <summary>
             Create log only in Debug Mode
             </summary>
-            <param name="message">Error Message</param>
-            <param name="debugData">Object Error</param>
-        </member>
-        <member name="M:Afonsoft.Logger`1.Debug``1(System.String,System.Object[])">
-            <summary>
-            Create log only in Debug Mode
-            </summary>
-            <typeparam name="T">Classe</typeparam>
             <param name="message">Error Message</param>
             <param name="debugData">Object Error</param>
         </member>
@@ -52,24 +37,10 @@
             </summary>
             <param name="message">Error Message</param>
         </member>
-        <member name="M:Afonsoft.Logger`1.Error``1(System.String)">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
-            <param name="message">Error Message</param>
-        </member>
         <member name="M:Afonsoft.Logger`1.Error(System.Exception)">
             <summary>
             Create log
             </summary>
-            <param name="exception">Exception</param>
-        </member>
-        <member name="M:Afonsoft.Logger`1.Error``1(System.Exception)">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
             <param name="exception">Exception</param>
         </member>
         <member name="M:Afonsoft.Logger`1.Error(System.String,System.Object[])">
@@ -79,26 +50,10 @@
             <param name="message">Error Message</param>
             <param name="debugData">Object Error</param>
         </member>
-        <member name="M:Afonsoft.Logger`1.Error``1(System.String,System.Object[])">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
-            <param name="message">Error Message</param>
-            <param name="debugData">Object Error</param>
-        </member>
         <member name="M:Afonsoft.Logger`1.Error(System.String,System.Exception)">
             <summary>
             Create log
             </summary>
-            <param name="message">Error Message</param>
-            <param name="exception">Exception Error</param>
-        </member>
-        <member name="M:Afonsoft.Logger`1.Error``1(System.String,System.Exception)">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
             <param name="message">Error Message</param>
             <param name="exception">Exception Error</param>
         </member>
@@ -110,27 +65,10 @@
             <param name="exception">Exception Error</param>
             <param name="debugData">Object Error</param>
         </member>
-        <member name="M:Afonsoft.Logger`1.Error``1(System.String,System.Exception,System.Object[])">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
-            <param name="message">Error Message</param>
-            <param name="exception">Exception Error</param>
-            <param name="debugData">Object Error</param>
-        </member>
         <member name="M:Afonsoft.Logger`1.Error(System.Exception,System.Object[])">
             <summary>
             Create log
             </summary>
-            <param name="exception">Exception Error</param>
-            <param name="debugData">Object Error</param>
-        </member>
-        <member name="M:Afonsoft.Logger`1.Error``1(System.Exception,System.Object[])">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
             <param name="exception">Exception Error</param>
             <param name="debugData">Object Error</param>
         </member>
@@ -140,25 +78,10 @@
             </summary>
             <param name="message">Error Message</param>
         </member>
-        <member name="M:Afonsoft.Logger`1.Info``1(System.String)">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
-            <param name="message">Error Message</param>
-        </member>
         <member name="M:Afonsoft.Logger`1.Info(System.String,System.Object[])">
             <summary>
             Create log
             </summary>
-            <param name="message">Error Message</param>
-            <param name="debugData">Object Error</param>
-        </member>
-        <member name="M:Afonsoft.Logger`1.Info``1(System.String,System.Object[])">
-            <summary>
-            Create log
-            </summary>
-            <typeparam name="T">Classe</typeparam>
             <param name="message">Error Message</param>
             <param name="debugData">Object Error</param>
         </member>
@@ -201,26 +124,43 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="T:Afonsoft.LoggerProvider">
+        <member name="T:Afonsoft.LoggerProvider`1">
             <summary>
             LoggerProvider : ILoggerProvider 
             </summary>
         </member>
-        <member name="M:Afonsoft.LoggerProvider.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.LoggerProvider`1.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             LoggerProvider
             </summary>
             <param name="categoryName"></param>
             <param name="filter"></param>
         </member>
-        <member name="M:Afonsoft.LoggerProvider.CreateLogger(System.String)">
+        <member name="M:Afonsoft.LoggerProvider`1.#ctor(System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            LoggerProvider
+            </summary>
+            <param name="filter"></param>
+        </member>
+        <member name="M:Afonsoft.LoggerProvider`1.#ctor">
+            <summary>
+            LoggerProvider
+            </summary>
+        </member>
+        <member name="M:Afonsoft.LoggerProvider`1.CreateLogger(System.String)">
             <summary>
             CreateLogger
             </summary>
             <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.LoggerProvider.CreateLogger(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.LoggerProvider`1.CreateLogger">
+            <summary>
+            CreateLogger
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.LoggerProvider`1.CreateLogger(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             CreateLogger
             </summary>
@@ -228,7 +168,7 @@
             <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.LoggerProvider.Dispose">
+        <member name="M:Afonsoft.LoggerProvider`1.Dispose">
             <summary>
             Dispose
             </summary>
