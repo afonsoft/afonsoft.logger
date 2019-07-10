@@ -39,7 +39,7 @@ namespace Afonsoft
         /// Create log only in Debug Mode
         /// </summary>
         /// <param name="message">Error Message</param>
-        [Conditional("DEBUG")]
+        
         public  void Debug(string message)
         {
             try
@@ -59,7 +59,7 @@ namespace Afonsoft
         /// </summary>
         /// <param name="message">Error Message</param>
         /// <param name="debugData">Object Error</param>
-        [Conditional("DEBUG")]
+        
         public  void Debug(string message, params object[] debugData)
         {
             try

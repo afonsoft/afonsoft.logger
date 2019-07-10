@@ -189,5 +189,10 @@
             <param name="exception"></param>
             <param name="debugData"></param>
         </member>
+        <member name="M:Afonsoft.LoggerRepository.Dispose">
+            <summary>
+            Dispose
+            </summary>
+        </member>
     </members>
 </doc>

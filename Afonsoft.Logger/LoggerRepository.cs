@@ -12,7 +12,7 @@ namespace Afonsoft
     /// <summary>
     /// 
     /// </summary>
-    public class LoggerRepository 
+    public class LoggerRepository : IDisposable
     {
         private readonly object lockObject = new object();
         private const int MaxEventLogEntryLength = 30000;
@@ -303,6 +303,14 @@ namespace Afonsoft
 
                 return true;
             });
+        }
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            
         }
     }
 }

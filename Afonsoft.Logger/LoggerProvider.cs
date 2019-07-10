@@ -20,7 +20,7 @@ namespace Afonsoft
         public LoggerProvider(string categoryName, Func<string, LogLevel, bool> filter)
         {
             _filter = filter;
-            _categoryName = categoryName;
+            _categoryName = categoryName ?? typeof(T).ToString();
             _repository = new LoggerRepository();
         }
         /// <summary>
@@ -82,6 +82,8 @@ namespace Afonsoft
         /// </summary>
         public void Dispose()
         {
+            _repository?.Dispose();
+            _repository = null;
         }
     }
 }
