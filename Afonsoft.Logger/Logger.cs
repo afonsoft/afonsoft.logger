@@ -1,16 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions.Internal;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
-namespace Afonsoft
+namespace Afonsoft.Logger
 {
     /// <summary>
     /// Classe para efetuar o Log
     /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
-    public class Logger<T> : ILogger
+    public class Logger<T> : ILogger<T>
     {
         private IExternalScopeProvider ScopeProvider { get; set; }
         private Func<string, LogLevel, bool> _filter;
@@ -35,187 +38,42 @@ namespace Afonsoft
             _categoryName = categoryName;
         }
 
-        /// <summary>
-        /// Create log only in Debug Mode
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        
-        public  void Debug(string message)
+        private void LogFile<TState>(string categoryName, LogLevel logLevel, string message, Exception exception, params object[] debugData)
         {
+            string type;
+            switch (logLevel)
+            {
+                case LogLevel.Information:
+                    type = " INFORMATION ";
+                    break;
+                case LogLevel.Error:
+                    type = " ERROR       ";
+                    break;
+                case LogLevel.Critical:
+                    type = " CRITICAL    ";
+                    break;
+                case LogLevel.Debug:
+                    type = " DEBUG       ";
+                    break;
+                case LogLevel.Trace:
+                    type = " TRACE       ";
+                    break;
+                case LogLevel.Warning:
+                    type = " WARNING     ";
+                    break;
+                default:
+                    type = " INFORMATION ";
+                    break;
+            }
+
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, null);
+                _repository.LogAsync<T>(categoryName, stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), type, message, exception, debugData);
             }
             catch
             {
-                _repository.LogAsync<T>(null, "DEBUG    ", message, null, null);
-            }
-        }
-
-
-        /// <summary>
-        /// Create log only in Debug Mode
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="debugData">Object Error</param>
-        
-        public  void Debug(string message, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "DEBUG    ", message, null, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "DEBUG    ", message, null, debugData);
-            }
-        }
-
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        public  void Error(string message)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, null);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "ERROR    ", message, null, null);
-            }
-        }
-
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="exception">Exception</param>
-        public  void Error(Exception exception)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, null);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "ERROR    ", null, exception, null);
-            }
-        }
-
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Error(string message, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, null, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "ERROR    ", message, null, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="exception">Exception Error</param>
-        public  void Error(string message, Exception exception)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, null);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "ERROR    ", message, exception, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="exception">Exception Error</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Error(string message, Exception exception, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", message, exception, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "ERROR    ", message, exception, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="exception">Exception Error</param>
-        /// <param name="debugData">Object Error</param>
-        public  void Error(Exception exception, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "ERROR    ", null, exception, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "ERROR    ", null, exception, debugData);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        public  void Info(string message)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, null);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "INFO     ", message, null, null);
-            }
-        }
-
-        /// <summary>
-        /// Create log
-        /// </summary>
-        /// <param name="message">Error Message</param>
-        /// <param name="debugData">Object Error</param>
-
-        public  void Info(string message, params object[] debugData)
-        {
-            try
-            {
-                StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(stackTrace.GetFrame(1).GetMethod(), "INFO     ", message, null, debugData);
-            }
-            catch
-            {
-                _repository.LogAsync<T>(null, "INFO     ", message, null, debugData);
+                _repository.LogAsync<T>(categoryName, null, type, message, exception, debugData);
             }
         }
 
@@ -236,36 +94,26 @@ namespace Afonsoft
             {
                 return;
             }
+
+            string message;
+
             if (formatter == null)
             {
-                throw new ArgumentNullException(nameof(formatter));
+                message = MyFormatter(state, exception);
             }
-            var message = formatter(state, exception);
+            else
+            {
+                message = formatter(state, exception);
+            }
+
             if (!string.IsNullOrEmpty(message))
             {
                 logBuilder.Append(message);
-                logBuilder.Append(Environment.NewLine);
             }
 
             GetScope(logBuilder);
 
-            switch (logLevel)
-            {
-                case LogLevel.Debug:
-                case LogLevel.Warning:
-                    Debug(logBuilder.ToString(), eventId);
-                    break;
-                case LogLevel.Critical:
-                case LogLevel.Error:
-                    Error(logBuilder.ToString(), exception, new object[] { eventId });
-                    break;
-                case LogLevel.Information:
-                case LogLevel.Trace:
-                    Info(logBuilder.ToString(), eventId);
-                    break;
-                default:
-                    break;
-            }
+            LogFile<TState>(_categoryName, logLevel, logBuilder.ToString(), exception, null);
         }
 
         private void GetScope(StringBuilder stringBuilder)
@@ -293,7 +141,7 @@ namespace Afonsoft
         /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel)
         {
-            return _filter == null || _filter(_categoryName, logLevel);
+            return _filter == null || logLevel != LogLevel.None;
         }
 
         /// <summary>
@@ -302,7 +150,13 @@ namespace Afonsoft
         /// <typeparam name="TState"></typeparam>
         /// <param name="state"></param>
         /// <returns></returns>
-        public IDisposable BeginScope<TState>(TState state) => ScopeProvider?.Push(state) ?? NullScope.Instance;
+        public IDisposable BeginScope<TState>(TState state) => NullScope.Instance;
+       
 
+        private string MyFormatter<TState>(TState state, Exception exception)
+        {
+            // create some string
+            return exception?.Message;
+        }
     }
 }

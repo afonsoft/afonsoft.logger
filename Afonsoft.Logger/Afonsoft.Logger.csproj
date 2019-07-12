@@ -18,11 +18,11 @@ HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE</Descrip
 Tool for logging with Microsoft.Extensions.Logging
 HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
 https://www.afonsoft.com.br</PackageReleaseNotes>
-    <Version>2019.7.10</Version>
+    <Version>2019.7.12</Version>
     <PackageProjectUrl>https://github.com/afonsoft/afonsoft.logger</PackageProjectUrl>
     <NeutralLanguage>pt-BR</NeutralLanguage>
-    <AssemblyVersion>2019.7.10</AssemblyVersion>
-    <FileVersion>2019.7.10</FileVersion>
+    <AssemblyVersion>2019.7.12</AssemblyVersion>
+    <FileVersion>2019.7.12</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

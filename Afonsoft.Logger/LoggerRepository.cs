@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Afonsoft
+namespace Afonsoft.Logger
 {
     /// <summary>
     /// 
@@ -20,13 +20,14 @@ namespace Afonsoft
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="categoryName"></param>
         /// <param name="methodBase"></param>
         /// <param name="type"></param>
         /// <param name="message"></param>
         /// <param name="exception"></param>
         /// <param name="debugData"></param>
-        public void LogAsync<T>(MethodBase methodBase, string type, string message, Exception exception, params object[] debugData) 
+        public void LogAsync<TState>( string categoryName, MethodBase methodBase, string type, string message, Exception exception, params object[] debugData) 
         {
             Task.Factory.StartNew(() =>
             {
@@ -34,25 +35,39 @@ namespace Afonsoft
                 {
                     string StackTraces = "";
                     string ExceptionMessages = "";
+                    string _categoryName = categoryName;
 
-
-                    Type typeObj = methodBase != null ? methodBase.DeclaringType : typeof(T);
+                    Type typeObj = methodBase != null ? methodBase.DeclaringType : typeof(TState);
 
                     Assembly assembly;
                     try
                     {
-                        assembly = typeObj != null ? Assembly.GetAssembly(typeObj) : Assembly.GetExecutingAssembly();
+                        assembly = typeObj != null ? Assembly.GetAssembly(typeObj) : Assembly.GetCallingAssembly();
                     }
                     catch
                     {
-                        assembly = Assembly.GetExecutingAssembly();
+                        try
+                        {
+                            assembly = Assembly.Load(categoryName);
+                        }
+                        catch
+                        {
+                            assembly = Assembly.GetCallingAssembly();
+                        }
                     }
 
 
                     var SystemName = assembly.GetName().Name;
                     var SystemVersion = assembly.GetName().Version.ToString();
+                    string methodBaseArgs="";
 
-                    var ClassName = methodBase != null && typeObj != null ? typeObj.Name + "." + methodBase.Name + "()" : (typeObj != null ? typeObj.Name : SystemName);
+                    if(methodBase != null) {
+                        foreach (var args in methodBase.GetParameters())
+                            methodBaseArgs += args.ToString() + ", ";
+                        methodBaseArgs = methodBaseArgs.Substring(0, methodBaseArgs.Length - 2);
+                    }
+
+                    var ClassName = methodBase != null && typeObj != null ? typeObj.Name + "." + methodBase.Name + "(" + methodBaseArgs + ")" : (typeObj != null ? typeObj.Name : SystemName);
 
                     string pathExe = Path.GetDirectoryName(assembly.GetName().CodeBase);
 
@@ -62,7 +77,6 @@ namespace Afonsoft
                     {
                         while (TmpException != null)
                         {
-
                             string Traces = "";
                             try
                             {
@@ -95,6 +109,21 @@ namespace Afonsoft
 
                         if (pathExe.IndexOf("bin", StringComparison.Ordinal) >= 0)
                             pathExe = pathExe.Replace("\\bin", "");
+
+                        if (pathExe.IndexOf("Debug", StringComparison.Ordinal) >= 0)
+                            pathExe = pathExe.Replace("\\Debug", "");
+
+                        if (pathExe.IndexOf("Release", StringComparison.Ordinal) >= 0)
+                            pathExe = pathExe.Replace("\\Release", "");
+
+                        if (pathExe.IndexOf("netcoreapp2.2", StringComparison.Ordinal) >= 0)
+                            pathExe = pathExe.Replace("\\netcoreapp2.2", "");
+
+                        if (pathExe.IndexOf("netstandard2.0", StringComparison.Ordinal) >= 0)
+                            pathExe = pathExe.Replace("\\netstandard2.0", "");
+
+                        if (pathExe.IndexOf("net47", StringComparison.Ordinal) >= 0)
+                            pathExe = pathExe.Replace("\\net47", "");
 
                         string path = Path.Combine(pathExe, "LOGS");
 
@@ -242,7 +271,7 @@ namespace Afonsoft
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
                 return "";
 
-            return value.Replace(Environment.NewLine, " - ");
+            return value.Replace(Environment.NewLine, " ").Replace("\n"," ").Replace("\r", " ").Trim();
         }
 
         private string EnsureLogMessageLimit(string logMessage)

@@ -1,16 +1,27 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace Afonsoft
+namespace Afonsoft.Logger
 {
     /// <summary>
     /// LoggerProvider : ILoggerProvider 
     /// </summary>
-    public class LoggerProvider<T>: ILoggerProvider
+    public class LoggerProvider<T> : ILoggerProvider, ISupportExternalScope
     {
         private Func<string, LogLevel, bool> _filter;
         private LoggerRepository _repository;
         private string _categoryName;
+
+        /// <summary>
+        /// IncludeScopes
+        /// </summary>
+        public bool IncludeScopes { get; set; } = false;
+
+        void ISupportExternalScope.SetScopeProvider(IExternalScopeProvider scopeProvider)
+        {
+            // Not going to use it because IncludeScopes = false
+            IncludeScopes = false;
+        }
 
         /// <summary>
         /// LoggerProvider
@@ -51,7 +62,7 @@ namespace Afonsoft
         public ILogger CreateLogger(string categoryName)
         {
             _repository = new LoggerRepository();
-            return new Logger<T>(_repository, _filter, categoryName);
+            return new Logger<T>( _repository, _filter, categoryName ?? _categoryName);
         }
 
         /// <summary>
@@ -61,7 +72,7 @@ namespace Afonsoft
         public ILogger CreateLogger()
         {
             _repository = new LoggerRepository();
-            return new Logger<T>(_repository, _filter, _categoryName);
+            return new Logger<T>( _repository, _filter, _categoryName);
         }
 
         /// <summary>
@@ -74,7 +85,7 @@ namespace Afonsoft
         {
             _filter = filter;
             _repository = new LoggerRepository();
-            return new Logger<T>(_repository, filter, categoryName);
+            return new Logger<T>( _repository, filter ?? _filter, categoryName ?? _categoryName);
         }
 
         /// <summary>
@@ -85,5 +96,6 @@ namespace Afonsoft
             _repository?.Dispose();
             _repository = null;
         }
+
     }
 }
