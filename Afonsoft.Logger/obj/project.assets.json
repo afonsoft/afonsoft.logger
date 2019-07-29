@@ -1533,7 +1533,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "2019.7.12",
+    "version": "2019.7.29",
     "restore": {
       "projectUniqueName": "C:\\Users\\mazza\\source\\repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\Afonsoft.Logger.csproj",
       "projectName": "Afonsoft.Logger",

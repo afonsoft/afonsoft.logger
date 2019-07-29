@@ -16,13 +16,14 @@ HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE</Descrip
     <PackageId>Afonsoft.Logger</PackageId>
     <PackageReleaseNotes>Ferramenta para criação de log com o Microsoft.Extensions.Logging
 Tool for logging with Microsoft.Extensions.Logging
+new Afonsoft.Logger.LoggerProvider&lt;Program&gt;().CreateLogger()
 HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
 https://www.afonsoft.com.br</PackageReleaseNotes>
-    <Version>2019.7.12</Version>
+    <Version>2019.7.29</Version>
     <PackageProjectUrl>https://github.com/afonsoft/afonsoft.logger</PackageProjectUrl>
     <NeutralLanguage>pt-BR</NeutralLanguage>
-    <AssemblyVersion>2019.7.12</AssemblyVersion>
-    <FileVersion>2019.7.12</FileVersion>
+    <AssemblyVersion>2019.7.29</AssemblyVersion>
+    <FileVersion>2019.7.29</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Afonsoft.Logger
 {
     /// <summary>
-    /// 
+    /// new Afonsoft.Logger.LoggerProvider<Program>().CreateLogger()
     /// </summary>
     public class LoggerRepository : IDisposable
     {

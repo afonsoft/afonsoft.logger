@@ -14,7 +14,7 @@ namespace Afonsoft.Logger
     /// Classe para efetuar o Log
     /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
-    public class Logger<T> : ILogger<T>
+    public class Logger : ILogger
     {
         private IExternalScopeProvider ScopeProvider { get; set; }
         private Func<string, LogLevel, bool> _filter;
@@ -23,7 +23,7 @@ namespace Afonsoft.Logger
 
         private Logger()
         {
-            _categoryName = typeof(T).ToString();
+            _categoryName = "ILogger";
         }
 
         /// <summary>
@@ -70,11 +70,11 @@ namespace Afonsoft.Logger
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<T>(categoryName, stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), type, message, exception, debugData);
+                _repository.LogAsync<TState>(categoryName, stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), type, message, exception, debugData);
             }
             catch
             {
-                _repository.LogAsync<T>(categoryName, null, type, message, exception, debugData);
+                _repository.LogAsync<TState>(categoryName, null, type, message, exception, debugData);
             }
         }
 
@@ -152,7 +152,7 @@ namespace Afonsoft.Logger
         /// <param name="state"></param>
         /// <returns></returns>
         public IDisposable BeginScope<TState>(TState state) => NullScope.Instance;
-       
+
 
         private string MyFormatter<TState>(TState state, Exception exception)
         {
