@@ -17,9 +17,9 @@ namespace Afonsoft.Logger
     public class Logger : ILogger
     {
         private IExternalScopeProvider ScopeProvider { get; set; }
-        private Func<string, LogLevel, bool> _filter;
-        private string _categoryName;
-        private LoggerRepository _repository;
+        private readonly Func<string, LogLevel, bool> _filter;
+        private readonly string _categoryName;
+        private readonly LoggerRepository _repository;
 
         private Logger()
         {

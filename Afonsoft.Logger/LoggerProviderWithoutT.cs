@@ -7,11 +7,11 @@ namespace Afonsoft.Logger
     /// new Afonsoft.Logger.LoggerProvider<Program>().CreateLogger()
     /// LoggerProvider : ILoggerProvider 
     /// </summary>
-    public class LoggerProvider : ILoggerProvider, ISupportExternalScope
+    public class AfonsoftLoggerProvider : ILoggerProvider, ISupportExternalScope
     {
         private Func<string, LogLevel, bool> _filter;
-        private LoggerRepository _repository;
-        private string _categoryName;
+        private readonly LoggerRepository _repository;
+        private readonly string _categoryName;
 
         /// <summary>
         /// IncludeScopes
@@ -29,7 +29,7 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <param name="categoryName"></param>
         /// <param name="filter"></param>
-        public LoggerProvider(string categoryName, Func<string, LogLevel, bool> filter)
+        public AfonsoftLoggerProvider(string categoryName, Func<string, LogLevel, bool> filter)
         {
             _filter = filter;
             _categoryName = categoryName;
@@ -39,7 +39,7 @@ namespace Afonsoft.Logger
         /// <summary>
         /// LoggerProvider
         /// </summary>
-        private LoggerProvider()
+        private AfonsoftLoggerProvider()
         {
             _repository = new LoggerRepository();
         }
@@ -51,9 +51,9 @@ namespace Afonsoft.Logger
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
         {
-            _repository = new LoggerRepository();
             return new Logger(_repository, _filter, categoryName ?? _categoryName);
         }
+
 
         /// <summary>
         /// CreateLogger
@@ -61,8 +61,16 @@ namespace Afonsoft.Logger
         /// <returns></returns>
         public ILogger CreateLogger()
         {
-            _repository = new LoggerRepository();
             return new Logger(_repository, _filter, _categoryName);
+        }
+
+        /// <summary>
+        /// CreateLogger
+        /// </summary>
+        /// <returns></returns>
+        public ILogger<T1> CreateLogger<T1>()
+        {
+            return new Logger<T1>(_repository, _filter, typeof(T1).ToString());
         }
 
         /// <summary>
@@ -74,8 +82,19 @@ namespace Afonsoft.Logger
         public ILogger CreateLogger(string categoryName, Func<string, LogLevel, bool> filter)
         {
             _filter = filter;
-            _repository = new LoggerRepository();
             return new Logger(_repository, filter ?? _filter, categoryName ?? _categoryName);
+        }
+
+        /// <summary>
+        /// CreateLogger
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="categoryName"></param>
+        /// <returns></returns>
+        public ILogger<T1> CreateLogger<T1>(Func<string, LogLevel, bool> filter)
+        {
+            _filter = filter;
+            return new Logger<T1>(_repository, filter ?? _filter, typeof(T1).ToString());
         }
 
         /// <summary>
@@ -84,7 +103,6 @@ namespace Afonsoft.Logger
         public void Dispose()
         {
             _repository?.Dispose();
-            _repository = null;
         }
 
     }
