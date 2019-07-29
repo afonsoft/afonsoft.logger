@@ -4,6 +4,112 @@
         <name>Afonsoft.Logger</name>
     </assembly>
     <members>
+        <member name="T:Afonsoft.Logger.AfonsoftLoggerExtensions">
+            <summary>
+            LoggerExtensions
+            </summary>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder)">
+            <summary>
+            ILoggingBuilder AddAfonsoftLoggerProvider
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder,System.String)">
+            <summary>
+            ILoggingBuilder AddAfonsoftLoggerProvider
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder,System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            ILoggingBuilder AddAfonsoftLoggerProvider
+            </summary>
+            <param name="builder"></param>
+            <param name="categoryName"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            ILoggingBuilder AddAfonsoftLoggerProvider
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="builder"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            ILoggerFactory AddAfonsoftLogger
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="loggerFactory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            ILoggerFactory AddAfonsoftLogger
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="loggerFactory"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger(Microsoft.Extensions.Logging.ILoggerFactory,System.String)">
+            <summary>
+            ILoggerFactory AddAfonsoftLogger
+            </summary>
+            <param name="loggerFactory"></param>
+            <param name="categoryName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger(Microsoft.Extensions.Logging.ILoggerFactory,System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            ILoggerFactory AddAfonsoftLogger
+            </summary>
+            <param name="loggerFactory"></param>
+            <param name="categoryName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            IServiceCollection AddAfonsoftLogging
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            IServiceCollection AddAfonsoftLogging
+            </summary>
+            <param name="services"></param>
+            <param name="categoryName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            IServiceCollection AddAfonsoftLogging
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="services"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            IServiceCollection AddAfonsoftLogging
+            </summary>
+            <param name="services"></param>
+            <param name="categoryName"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Afonsoft.Logger.Logger`1" -->
         <member name="M:Afonsoft.Logger.Logger`1.#ctor(Afonsoft.Logger.LoggerRepository,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean},System.String)">
             <summary>
@@ -39,62 +145,51 @@
             <param name="state"></param>
             <returns></returns>
         </member>
-        <member name="T:Afonsoft.Logger.LoggerExtensions">
-            <summary>
-            LoggerExtensions
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Afonsoft.Logger.LoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder)" -->
-        <!-- Badly formed XML comment ignored for member "M:Afonsoft.Logger.LoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})" -->
-        <!-- Badly formed XML comment ignored for member "M:Afonsoft.Logger.LoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory)" -->
-        <!-- Badly formed XML comment ignored for member "M:Afonsoft.Logger.LoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})" -->
-        <member name="M:Afonsoft.Logger.LoggerExtensions.AddAfonsoftLogger(Microsoft.Extensions.Logging.ILoggerFactory,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="loggerFactory"></param>
-            <param name="categoryName"></param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Afonsoft.Logger.LoggerExtensions.AddAfonsoftLogger(Microsoft.Extensions.Logging.ILoggerFactory,System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})" -->
-        <!-- Badly formed XML comment ignored for member "T:Afonsoft.Logger.LoggerProvider`1" -->
-        <member name="P:Afonsoft.Logger.LoggerProvider`1.IncludeScopes">
+        <!-- Badly formed XML comment ignored for member "T:Afonsoft.Logger.AfonsoftLoggerProvider`1" -->
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerProvider`1.IncludeScopes">
             <summary>
             IncludeScopes
             </summary>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             LoggerProvider
             </summary>
             <param name="categoryName"></param>
             <param name="filter"></param>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.#ctor(System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             LoggerProvider
             </summary>
             <param name="filter"></param>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.#ctor">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor">
             <summary>
             LoggerProvider
             </summary>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.CreateLogger(System.String)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.CreateLogger(System.String)">
             <summary>
             CreateLogger
             </summary>
             <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.CreateLogger">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.CreateLogger">
             <summary>
             CreateLogger
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.CreateLogger(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.CreateLogger``1">
+            <summary>
+            CreateLogger
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.CreateLogger(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             CreateLogger
             </summary>
@@ -102,43 +197,58 @@
             <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider`1.Dispose">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.CreateLogger``1(System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            CreateLogger
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <param name="categoryName"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.Dispose">
             <summary>
             Dispose
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:Afonsoft.Logger.LoggerProvider" -->
-        <member name="P:Afonsoft.Logger.LoggerProvider.IncludeScopes">
+        <!-- Badly formed XML comment ignored for member "T:Afonsoft.Logger.AfonsoftLoggerProvider" -->
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerProvider.IncludeScopes">
             <summary>
             IncludeScopes
             </summary>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             LoggerProvider
             </summary>
             <param name="categoryName"></param>
             <param name="filter"></param>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider.#ctor">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor">
             <summary>
             LoggerProvider
             </summary>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider.CreateLogger(System.String)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.CreateLogger(System.String)">
             <summary>
             CreateLogger
             </summary>
             <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider.CreateLogger">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.CreateLogger">
             <summary>
             CreateLogger
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider.CreateLogger(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.CreateLogger``1">
+            <summary>
+            CreateLogger
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.CreateLogger(System.String,System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
             <summary>
             CreateLogger
             </summary>
@@ -146,7 +256,15 @@
             <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.LoggerProvider.Dispose">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.CreateLogger``1(System.Func{System.String,Microsoft.Extensions.Logging.LogLevel,System.Boolean})">
+            <summary>
+            CreateLogger
+            </summary>
+            <param name="filter"></param>
+            <param name="categoryName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.Dispose">
             <summary>
             Dispose
             </summary>
