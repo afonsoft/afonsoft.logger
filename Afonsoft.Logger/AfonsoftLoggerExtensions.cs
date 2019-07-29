@@ -23,17 +23,17 @@ namespace Afonsoft.Logger
             builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider<T>().CreateLogger());
             return builder;
         }
-
-        /// <summary>
-        /// ILoggingBuilder AddAfonsoftLoggerProvider
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="builder"></param>
-        /// <returns></returns>
+/// <summary>
+/// 
+/// </summary>
+/// <param name="builder"></param>
+/// <param name="categoryName"></param>
+/// <returns></returns>
         public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, string categoryName)
         {
-            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>(p => new AfonsoftLoggerProvider(categoryName, (name, logLevel) => logLevel >= LogLevel.Debug));
+            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>(p => new AfonsoftLoggerProvider(categoryName, (category, logLevel) => logLevel >= LogLevel.Debug));
             builder.AddProvider(new AfonsoftLoggerProvider(categoryName, (name, logLevel) => logLevel >= LogLevel.Debug));
+            builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider(categoryName).CreateLogger());
             return builder;
         }
 
@@ -48,6 +48,7 @@ namespace Afonsoft.Logger
         {
             builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>(p => new AfonsoftLoggerProvider(categoryName, filter));
             builder.AddProvider(new AfonsoftLoggerProvider(categoryName, filter));
+            builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider(categoryName, filter).CreateLogger());
             return builder;
         }
 

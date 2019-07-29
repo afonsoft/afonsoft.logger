@@ -25,7 +25,7 @@ namespace Afonsoft.Logger
         }
 
         /// <summary>
-        /// LoggerProvider
+        /// AfonsoftLoggerProvider
         /// </summary>
         /// <param name="categoryName"></param>
         /// <param name="filter"></param>
@@ -37,7 +37,17 @@ namespace Afonsoft.Logger
         }
 
         /// <summary>
-        /// LoggerProvider
+        /// AfonsoftLoggerProvider
+        /// </summary>
+        /// <param name="categoryName"></param>
+        public AfonsoftLoggerProvider(string categoryName)
+        {
+            _categoryName = categoryName;
+            _repository = new LoggerRepository();
+        }
+
+        /// <summary>
+        /// AfonsoftLoggerProvider
         /// </summary>
         private AfonsoftLoggerProvider()
         {
