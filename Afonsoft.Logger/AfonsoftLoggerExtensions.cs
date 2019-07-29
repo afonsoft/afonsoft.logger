@@ -17,38 +17,7 @@ namespace Afonsoft.Logger
         /// <returns></returns>
         public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder)
         {
-            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider<T>>(p => new AfonsoftLoggerProvider<T>(typeof(T).ToString(), (categoryName, logLevel) => logLevel >= LogLevel.Debug));
-            builder.AddProvider(new AfonsoftLoggerProvider<T>(typeof(T).ToString(), (name, logLevel) => logLevel >= LogLevel.Debug));
-            builder.Services.AddSingleton<ILogger<T>>(new AfonsoftLoggerProvider<T>().CreateLogger<T>());
-            builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider<T>().CreateLogger());
-            return builder;
-        }
-/// <summary>
-/// 
-/// </summary>
-/// <param name="builder"></param>
-/// <param name="categoryName"></param>
-/// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, string categoryName)
-        {
-            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>(p => new AfonsoftLoggerProvider(categoryName, (category, logLevel) => logLevel >= LogLevel.Debug));
-            builder.AddProvider(new AfonsoftLoggerProvider(categoryName, (name, logLevel) => logLevel >= LogLevel.Debug));
-            builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider(categoryName).CreateLogger());
-            return builder;
-        }
-
-        /// <summary>
-        /// ILoggingBuilder AddAfonsoftLoggerProvider
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, string categoryName, Func<string, LogLevel, bool> filter)
-        {
-            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>(p => new AfonsoftLoggerProvider(categoryName, filter));
-            builder.AddProvider(new AfonsoftLoggerProvider(categoryName, filter));
-            builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider(categoryName, filter).CreateLogger());
+            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider<T>>();
             return builder;
         }
 
@@ -57,14 +26,46 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="builder"></param>
-        /// <param name="filter"></param>
+        /// <param name="configure">Configure an instance of the <see cref="FileLoggerOptions" /> to set logging options</param>
         /// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder, Func<string, LogLevel, bool> filter)
+        public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder, Action<FileLoggerOptions> configure)
         {
-            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider<T>>(p => new AfonsoftLoggerProvider<T>(typeof(T).ToString(), filter));
-            builder.AddProvider(new AfonsoftLoggerProvider<T>(typeof(T).ToString(), filter));
-            builder.Services.AddSingleton<ILogger<T>>(new AfonsoftLoggerProvider<T>().CreateLogger<T>(filter));
-            builder.Services.AddSingleton<ILogger>(new AfonsoftLoggerProvider<T>().CreateLogger(typeof(T).ToString(), filter));
+            if (configure == null)
+            {
+                throw new ArgumentNullException(nameof(configure));
+            }
+
+            builder.AddAfonsoftLoggerProvider<T>();
+            builder.Services.Configure(configure);
+            return builder;
+        }
+
+        /// <summary>
+        /// ILoggingBuilder AddAfonsoftLoggerProvider
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder)
+        {
+            builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>();
+            return builder;
+        }
+
+        /// <summary>
+        /// ILoggingBuilder AddAfonsoftLoggerProvider
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configure">Configure an instance of the <see cref="FileLoggerOptions" /> to set logging options</param>
+        /// <returns></returns>
+        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, Action<FileLoggerOptions> configure)
+        {
+            if (configure == null)
+            {
+                throw new ArgumentNullException(nameof(configure));
+            }
+
+            builder.AddAfonsoftLoggerProvider();
+            builder.Services.Configure(configure);
             return builder;
         }
 
@@ -76,7 +77,7 @@ namespace Afonsoft.Logger
         /// <returns></returns>
         public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>((categoryName, logLevel) => logLevel >= LogLevel.Debug));
+            loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>());
             return loggerFactory;
         }
 
@@ -85,11 +86,23 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="loggerFactory"></param>
-        /// <param name="filter"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory, Func<string, LogLevel, bool> filter)
+        public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory, Func<FileLoggerOptions> configure)
         {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>(filter));
+            loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>(configure));
+            return loggerFactory;
+        }
+
+
+        /// <summary>
+        /// ILoggerFactory AddAfonsoftLogger
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        /// <returns></returns>
+        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddProvider(new AfonsoftLoggerProvider());
             return loggerFactory;
         }
 
@@ -97,25 +110,15 @@ namespace Afonsoft.Logger
         /// ILoggerFactory AddAfonsoftLogger
         /// </summary>
         /// <param name="loggerFactory"></param>
-        /// <param name="categoryName"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory, string categoryName)
+        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory, Func<FileLoggerOptions> configure)
         {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider(categoryName, (category, logLevel) => logLevel >= LogLevel.Debug));
+            loggerFactory.AddProvider(new AfonsoftLoggerProvider(configure));
             return loggerFactory;
         }
 
-        /// <summary>
-        /// ILoggerFactory AddAfonsoftLogger
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="categoryName"></param>
-        /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory, string categoryName, Func<string, LogLevel, bool> filter)
-        {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider(categoryName, filter));
-            return loggerFactory;
-        }
+
 
         /// <summary>
         /// IServiceCollection AddAfonsoftLogging
@@ -137,13 +140,12 @@ namespace Afonsoft.Logger
         /// IServiceCollection AddAfonsoftLogging
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="categoryName"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, string categoryName)
+        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services)
         {
             services.AddLogging(logging =>
             {
-                logging.AddAfonsoftLoggerProvider(categoryName);
+                logging.AddAfonsoftLoggerProvider();
             });
 
             return services;
@@ -154,13 +156,13 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="services"></param>
-        /// <param name="filter"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services, Func<string, LogLevel, bool> filter)
+        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services, Action<FileLoggerOptions> configure)
         {
             services.AddLogging(logging =>
             {
-                logging.AddAfonsoftLoggerProvider<T>(filter);
+                logging.AddAfonsoftLoggerProvider<T>(configure);
             });
             
             return services;
@@ -170,14 +172,13 @@ namespace Afonsoft.Logger
         /// IServiceCollection AddAfonsoftLogging
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="filter"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, string categoryName, Func<string, LogLevel, bool> filter)
+        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, Action<FileLoggerOptions> configure)
         {
             services.AddLogging(logging =>
             {
-                logging.AddAfonsoftLoggerProvider(categoryName, filter);
+                logging.AddAfonsoftLoggerProvider(configure);
             });
 
             

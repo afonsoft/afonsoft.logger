@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Afonsoft.Logger
+namespace Afonsoft.Logger.Internal
 {
     /// <summary>
     /// new Afonsoft.Logger.LoggerProvider<Program>().CreateLogger()
@@ -16,10 +16,8 @@ namespace Afonsoft.Logger
     /// </summary>
     public class Logger : ILogger
     {
-        private IExternalScopeProvider ScopeProvider { get; set; }
-        private readonly Func<string, LogLevel, bool> _filter;
-        private readonly string _categoryName;
-        private readonly LoggerRepository _repository;
+        private string _categoryName;
+        private BatchingLoggerProvider _provider;
 
         private Logger()
         {
@@ -30,16 +28,15 @@ namespace Afonsoft.Logger
         /// 
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="filter"></param>
         /// <param name="categoryName"></param>
-        public Logger(LoggerRepository repository, Func<string, LogLevel, bool> filter, string categoryName)
+        public Logger(BatchingLoggerProvider provider, string categoryName)
         {
-            _repository = repository;
-            _filter = filter;
+            _provider = provider;
             _categoryName = categoryName;
         }
 
-        private void LogFile<TState>(string categoryName, LogLevel logLevel, string message, Exception exception, params object[] debugData)
+
+        private void LogFile<TState>(string categoryName, LogLevel logLevel, string message, Exception exception)
         {
             string type;
             switch (logLevel)
@@ -67,14 +64,15 @@ namespace Afonsoft.Logger
                     break;
             }
 
+            DateTime timestamp = DateTime.Now;
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _repository.LogAsync<TState>(categoryName, stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), type, message, exception, debugData);
+                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), Type = typeof(TState) });
             }
             catch
             {
-                _repository.LogAsync<TState>(categoryName, null, type, message, exception, debugData);
+                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = null, Type = typeof(TState) });
             }
         }
 
@@ -112,38 +110,17 @@ namespace Afonsoft.Logger
                 logBuilder.Append(message);
             }
 
-            GetScope(logBuilder);
-
-            LogFile<TState>(_categoryName, logLevel, logBuilder.ToString(), exception, null);
+            LogFile<TState>(_categoryName, logLevel, logBuilder.ToString(), exception);
         }
 
-        private void GetScope(StringBuilder stringBuilder)
-        {
-            var scopeProvider = ScopeProvider;
-            if (scopeProvider != null)
-            {
-                var initialLength = stringBuilder.Length;
-
-                scopeProvider.ForEachScope((scope, state) =>
-                {
-                    var (builder, length) = state;
-                    var first = length == builder.Length;
-                    builder.Append(first ? "=> " : " => ").Append(scope);
-                }, (stringBuilder, initialLength));
-
-                stringBuilder.AppendLine();
-            }
-        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return _filter == null || logLevel != LogLevel.None;
-        }
+        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabled;
+
 
         /// <summary>
         /// 
@@ -151,8 +128,7 @@ namespace Afonsoft.Logger
         /// <typeparam name="TState"></typeparam>
         /// <param name="state"></param>
         /// <returns></returns>
-        public IDisposable BeginScope<TState>(TState state) => NullScope.Instance;
-
+        public IDisposable BeginScope<TState>(TState state) => _provider.ScopeProvider?.Push(state);
 
         private string MyFormatter<TState>(TState state, Exception exception)
         {
