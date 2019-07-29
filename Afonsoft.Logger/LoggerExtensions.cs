@@ -82,5 +82,14 @@ namespace Afonsoft.Logger
             loggerFactory.AddProvider(new LoggerProvider(categoryName, filter));
             return loggerFactory;
         }
+
+        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services)
+        {
+            services.AddLogging(logging =>
+            {
+                logging.AddAfonsoftLoggerProvider<T>();
+            });
+            return services;
+        }
     }
 }

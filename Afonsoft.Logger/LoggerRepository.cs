@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -159,7 +158,8 @@ namespace Afonsoft.Logger
 
                                 if (!String.IsNullOrEmpty(ExceptionMessages))
                                 {
-                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "EXCEPTION | " + SystemVersion + " | " + ClassName + " | " + FixString(ExceptionMessages);
+                                    //|  INFORMATION  |
+                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " |  " + "EXCEPTION    | " + SystemVersion + " | " + ClassName + " | " + FixString(ExceptionMessages);
                                     sw.WriteLine(messageToSave);
                                     if (Environment.UserInteractive)
                                     {
@@ -170,7 +170,7 @@ namespace Afonsoft.Logger
 
                                 if (!String.IsNullOrEmpty(StackTraces))
                                 {
-                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "STACK     | " + SystemVersion + " | " + ClassName + " | " + FixString(StackTraces);
+                                    messageToSave = DateTime.Now.ToString("HH:mm:ss") + " |  " + "STACK        | " + SystemVersion + " | " + ClassName + " | " + FixString(StackTraces);
                                     sw.WriteLine(messageToSave);
                                     if (Environment.UserInteractive)
                                     {
@@ -183,7 +183,7 @@ namespace Afonsoft.Logger
                                 {
                                     foreach (var data in debugData)
                                     {
-                                        messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "OBJECT    | " + SystemVersion + " | " + ClassName + " | " + data.GetType().Name + " --> " + JsonConvert.SerializeObject(data);
+                                        messageToSave = DateTime.Now.ToString("HH:mm:ss") + " |  " + "OBJECT       | " + SystemVersion + " | " + ClassName + " | " + data.GetType().Name + " --> " + JsonConvert.SerializeObject(data);
                                         sw.WriteLine(messageToSave);
 
                                         if (Environment.UserInteractive)
