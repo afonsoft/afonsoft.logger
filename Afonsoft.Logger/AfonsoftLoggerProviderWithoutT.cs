@@ -11,39 +11,39 @@ namespace Afonsoft.Logger
     /// </summary>
     public class AfonsoftLoggerProvider : BatchingLoggerProvider
     {
-        private static FileLoggerOptions fileLoggerOptions = new FileLoggerOptions();
+        private static AfonsoftLoggerOptions afonsoftLoggerOptions = new AfonsoftLoggerOptions();
 
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
         /// <param name="options"></param>
-        public AfonsoftLoggerProvider(IOptionsMonitor<FileLoggerOptions> options) : base(options)
+        public AfonsoftLoggerProvider(IOptionsMonitor<AfonsoftLoggerOptions> options) : base(options)
         {
-            fileLoggerOptions = options.CurrentValue;
+            afonsoftLoggerOptions = options.CurrentValue;
         }
 
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
         /// <param name="options"></param>
-        public AfonsoftLoggerProvider(Func<FileLoggerOptions> options) : base(new OptionsWrapperMonitor<FileLoggerOptions>(options.Invoke()))
+        public AfonsoftLoggerProvider(Func<AfonsoftLoggerOptions> options) : base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(options.Invoke()))
         {
-            fileLoggerOptions = options.Invoke();
+            afonsoftLoggerOptions = options.Invoke();
         }
 
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
         /// <param name="options"></param>
-        public AfonsoftLoggerProvider(FileLoggerOptions options) : base(new OptionsWrapperMonitor<FileLoggerOptions>(options))
+        public AfonsoftLoggerProvider(AfonsoftLoggerOptions options) : base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(options))
         {
-            fileLoggerOptions = options;
+            afonsoftLoggerOptions = options;
         }
 
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
-        public AfonsoftLoggerProvider() : base(new OptionsWrapperMonitor<FileLoggerOptions>(fileLoggerOptions))
+        public AfonsoftLoggerProvider() : base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(afonsoftLoggerOptions))
         {
 
         }

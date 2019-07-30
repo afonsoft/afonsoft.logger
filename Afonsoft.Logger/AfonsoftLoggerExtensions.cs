@@ -26,9 +26,9 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="builder"></param>
-        /// <param name="configure">Configure an instance of the <see cref="FileLoggerOptions" /> to set logging options</param>
+        /// <param name="configure">Configure an instance of the <see cref="AfonsoftLoggerOptions" /> to set logging options</param>
         /// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder, Action<FileLoggerOptions> configure)
+        public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder, Action<AfonsoftLoggerOptions> configure)
         {
             if (configure == null)
             {
@@ -55,9 +55,9 @@ namespace Afonsoft.Logger
         /// ILoggingBuilder AddAfonsoftLoggerProvider
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="configure">Configure an instance of the <see cref="FileLoggerOptions" /> to set logging options</param>
+        /// <param name="configure">Configure an instance of the <see cref="AfonsoftLoggerOptions" /> to set logging options</param>
         /// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, Action<FileLoggerOptions> configure)
+        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, Action<AfonsoftLoggerOptions> configure)
         {
             if (configure == null)
             {
@@ -88,7 +88,7 @@ namespace Afonsoft.Logger
         /// <param name="loggerFactory"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory, Func<FileLoggerOptions> configure)
+        public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory, Func<AfonsoftLoggerOptions> configure)
         {
             loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>(configure));
             return loggerFactory;
@@ -112,7 +112,7 @@ namespace Afonsoft.Logger
         /// <param name="loggerFactory"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory, Func<FileLoggerOptions> configure)
+        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory, Func<AfonsoftLoggerOptions> configure)
         {
             loggerFactory.AddProvider(new AfonsoftLoggerProvider(configure));
             return loggerFactory;
@@ -158,7 +158,7 @@ namespace Afonsoft.Logger
         /// <param name="services"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services, Action<FileLoggerOptions> configure)
+        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services, Action<AfonsoftLoggerOptions> configure)
         {
             services.AddLogging(logging =>
             {
@@ -174,7 +174,7 @@ namespace Afonsoft.Logger
         /// <param name="services"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, Action<FileLoggerOptions> configure)
+        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, Action<AfonsoftLoggerOptions> configure)
         {
             services.AddLogging(logging =>
             {

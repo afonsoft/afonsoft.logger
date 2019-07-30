@@ -8,7 +8,7 @@ namespace Afonsoft.Logger
     /// <summary>
     /// Options for file logging.
     /// </summary>
-    public class FileLoggerOptions 
+    public class AfonsoftLoggerOptions 
     {
         private int? _fileSizeLimit = 40 * 1024 * 1024;
         private int? _retainedFileCountLimit = 2;

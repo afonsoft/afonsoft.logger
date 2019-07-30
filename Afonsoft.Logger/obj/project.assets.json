@@ -1536,13 +1536,13 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "2019.7.30",
+    "version": "2019.7.31",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mazza\\source\\repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\Afonsoft.Logger.csproj",
+      "projectUniqueName": "C:\\Users\\mazza\\Source\\Repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\Afonsoft.Logger.csproj",
       "projectName": "Afonsoft.Logger",
-      "projectPath": "C:\\Users\\mazza\\source\\repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\Afonsoft.Logger.csproj",
+      "projectPath": "C:\\Users\\mazza\\Source\\Repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\Afonsoft.Logger.csproj",
       "packagesPath": "C:\\Users\\mazza\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mazza\\source\\repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\obj\\",
+      "outputPath": "C:\\Users\\mazza\\Source\\Repos\\afonsoft\\afonsoft.logger\\Afonsoft.Logger\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [

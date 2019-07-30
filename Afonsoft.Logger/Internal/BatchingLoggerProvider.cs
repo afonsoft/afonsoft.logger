@@ -48,7 +48,7 @@ namespace Afonsoft.Logger.Internal
         /// BatchingLoggerProvider
         /// </summary>
         /// <param name="options"></param>
-        protected BatchingLoggerProvider(IOptionsMonitor<FileLoggerOptions> options)
+        protected BatchingLoggerProvider(IOptionsMonitor<AfonsoftLoggerOptions> options)
         {
             // NOTE: Only IsEnabled and IncludeScopes are monitored
 
@@ -82,7 +82,7 @@ namespace Afonsoft.Logger.Internal
         /// </summary>
         public bool IsEnabled { get; private set; }
 
-        private void UpdateOptions(FileLoggerOptions options)
+        private void UpdateOptions(AfonsoftLoggerOptions options)
         {
             var oldIsEnabled = IsEnabled;
             IsEnabled = options.IsEnabled;
@@ -250,21 +250,21 @@ namespace Afonsoft.Logger.Internal
                             {
                                 if (!string.IsNullOrEmpty(item.Message))
                                 {
-#if NET47
+#if NET47 
                                     EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(item.Message), EventLogEntryType.Information);
 #endif
                                 }
 
                                 if (!string.IsNullOrEmpty(StackTraces))
                                 {
-#if NET47
+#if NET47 
                                     EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(StackTraces), EventLogEntryType.Warning);
 #endif
                                 }
 
                                 if (!string.IsNullOrEmpty(ExceptionMessages))
                                 {
-#if NET47
+#if NET47 
                                     EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(ExceptionMessages), EventLogEntryType.Error);
 #endif
                                 }
@@ -284,7 +284,7 @@ namespace Afonsoft.Logger.Internal
 
         private bool CheckSourceExists(string source, string eventLogName)
         {
-#if NET47
+#if NET47 
             if (EventLog.SourceExists(source))
             {
                 EventLog evLog = new EventLog { Source = source };
@@ -349,7 +349,7 @@ namespace Afonsoft.Logger.Internal
         }
 
         /// <summary>
-        /// Deletes old log files, keeping a number of files defined by <see cref="FileLoggerOptions.RetainedFileCountLimit" />
+        /// Deletes old log files, keeping a number of files defined by <see cref="AfonsoftLoggerOptions.RetainedFileCountLimit" />
         /// </summary>
         protected void RollFiles()
         {

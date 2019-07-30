@@ -17,13 +17,13 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder,System.Action{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             ILoggingBuilder AddAfonsoftLoggerProvider
             </summary>
             <typeparam name="T"></typeparam>
             <param name="builder"></param>
-            <param name="configure">Configure an instance of the <see cref="T:Afonsoft.Logger.FileLoggerOptions" /> to set logging options</param>
+            <param name="configure">Configure an instance of the <see cref="T:Afonsoft.Logger.AfonsoftLoggerOptions" /> to set logging options</param>
             <returns></returns>
         </member>
         <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder)">
@@ -33,12 +33,12 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder,System.Action{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             ILoggingBuilder AddAfonsoftLoggerProvider
             </summary>
             <param name="builder"></param>
-            <param name="configure">Configure an instance of the <see cref="T:Afonsoft.Logger.FileLoggerOptions" /> to set logging options</param>
+            <param name="configure">Configure an instance of the <see cref="T:Afonsoft.Logger.AfonsoftLoggerOptions" /> to set logging options</param>
             <returns></returns>
         </member>
         <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory)">
@@ -49,7 +49,7 @@
             <param name="loggerFactory"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger``1(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             ILoggerFactory AddAfonsoftLogger
             </summary>
@@ -62,15 +62,13 @@
             <summary>
             ILoggerFactory AddAfonsoftLogger
             </summary>
-            <typeparam name="T"></typeparam>
             <param name="loggerFactory"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogger(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             ILoggerFactory AddAfonsoftLogger
             </summary>
-            <typeparam name="T"></typeparam>
             <param name="loggerFactory"></param>
             <param name="configure"></param>
             <returns></returns>
@@ -88,10 +86,9 @@
             IServiceCollection AddAfonsoftLogging
             </summary>
             <param name="services"></param>
-            <param name="categoryName"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             IServiceCollection AddAfonsoftLogging
             </summary>
@@ -100,12 +97,11 @@
             <param name="configure"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             IServiceCollection AddAfonsoftLogging
             </summary>
             <param name="services"></param>
-            <param name="categoryName"></param>
             <param name="configure"></param>
             <returns></returns>
         </member>
@@ -115,19 +111,19 @@
              LoggerProvider : ILoggerProvider 
              </summary>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             AfonsoftLoggerProvider
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(System.Func{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(System.Func{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             AfonsoftLoggerProvider
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(Afonsoft.Logger.FileLoggerOptions)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(Afonsoft.Logger.AfonsoftLoggerOptions)">
             <summary>
             AfonsoftLoggerProvider
             </summary>
@@ -158,19 +154,19 @@
              LoggerProvider : ILoggerProvider 
              </summary>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             AfonsoftLoggerProvider
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(System.Func{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(System.Func{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             AfonsoftLoggerProvider
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(Afonsoft.Logger.FileLoggerOptions)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(Afonsoft.Logger.AfonsoftLoggerOptions)">
             <summary>
             AfonsoftLoggerProvider
             </summary>
@@ -201,72 +197,72 @@
             <typeparam name="T1"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:Afonsoft.Logger.FileLoggerOptions">
+        <member name="T:Afonsoft.Logger.AfonsoftLoggerOptions">
             <summary>
             Options for file logging.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.FlushPeriod">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.FlushPeriod">
             <summary>
             Gets or sets the period after which logs will be flushed to the store.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.BackgroundQueueSize">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.BackgroundQueueSize">
             <summary>
             Gets or sets the maximum size of the background log message queue or null for no limit.
             After maximum queue size is reached log event sink would start blocking.
             Defaults to <c>1000</c>.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.BatchSize">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.BatchSize">
             <summary>
             Gets or sets a maximum number of events to include in a single batch or null for no limit.
             </summary>
             Defaults to <c>null</c>.
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.IsEnabled">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.IsEnabled">
             <summary>
             Gets or sets value indicating if logger accepts and queues writes.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.IncludeScopes">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.IncludeScopes">
             <summary>
             Gets or sets a value indicating whether scopes should be included in the message.
             Defaults to <c>false</c>.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.FileSizeLimit">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.FileSizeLimit">
             <summary>
             Gets or sets a strictly positive value representing the maximum log size in bytes or null for no limit.
             Once the log is full, no more messages will be appended.
             Defaults to <c>40MB</c>.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.RetainedFileCountLimit">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.RetainedFileCountLimit">
             <summary>
             Gets or sets a strictly positive value representing the maximum retained file count or null for no limit.
             Defaults to <c>2</c>.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.FileName">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.FileName">
             <summary>
             Gets or sets the filename prefix to use for log files.
             Defaults to <c>logs-</c>.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.Extension">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.Extension">
             <summary>
             Gets or sets the filename extension to use for log files.
             Defaults to <c>txt</c>.
             Will strip any prefixed .
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.Periodicity">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.Periodicity">
             <summary>
             Gets or sets the periodicity for rolling over log files.
             </summary>
         </member>
-        <member name="P:Afonsoft.Logger.FileLoggerOptions.LogDirectory">
+        <member name="P:Afonsoft.Logger.AfonsoftLoggerOptions.LogDirectory">
             <summary>
             The directory in which log files will be written, relative to the app process.
             Default to <c>Logs</c>
@@ -278,7 +274,7 @@
             BatchingLoggerProvider
             </summary>
         </member>
-        <member name="M:Afonsoft.Logger.Internal.BatchingLoggerProvider.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Afonsoft.Logger.FileLoggerOptions})">
+        <member name="M:Afonsoft.Logger.Internal.BatchingLoggerProvider.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             BatchingLoggerProvider
             </summary>
@@ -299,7 +295,7 @@
         </member>
         <member name="M:Afonsoft.Logger.Internal.BatchingLoggerProvider.RollFiles">
             <summary>
-            Deletes old log files, keeping a number of files defined by <see cref="P:Afonsoft.Logger.FileLoggerOptions.RetainedFileCountLimit" />
+            Deletes old log files, keeping a number of files defined by <see cref="P:Afonsoft.Logger.AfonsoftLoggerOptions.RetainedFileCountLimit" />
             </summary>
         </member>
         <member name="M:Afonsoft.Logger.Internal.BatchingLoggerProvider.IntervalAsync(System.TimeSpan,System.Threading.CancellationToken)">
