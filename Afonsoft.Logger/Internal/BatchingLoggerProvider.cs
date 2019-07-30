@@ -27,8 +27,7 @@ namespace Afonsoft.Logger.Internal
         private readonly int? _batchSize;
         private readonly IDisposable _optionsChangeToken;
 
-        private readonly string _path;
-        private readonly string _fullpath;
+        private string _path;
         private readonly string _fileName;
         private readonly string _extension;
         private readonly int? _maxFileSize;
@@ -101,6 +100,32 @@ namespace Afonsoft.Logger.Internal
             }
 
         }
+
+
+        private string ClearPath(string _path)
+        {
+            if (_path.IndexOf("file:\\", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("file:\\", "");
+
+            if (_path.IndexOf("bin", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("\\bin", "");
+
+            if (_path.IndexOf("Debug", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("\\Debug", "");
+
+            if (_path.IndexOf("Release", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("\\Release", "");
+
+            if (_path.IndexOf("netcoreapp2.2", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("\\netcoreapp2.2", "");
+
+            if (_path.IndexOf("netstandard2.0", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("\\netstandard2.0", "");
+
+            if (_path.IndexOf("net47", StringComparison.Ordinal) >= 0)
+                _path = _path.Replace("\\net47", "");
+            return _path;
+        }
         /// <summary>
         /// WriteMessagesAsync
         /// </summary>
@@ -109,104 +134,128 @@ namespace Afonsoft.Logger.Internal
         /// <returns></returns>
         protected async Task WriteMessagesAsync(IEnumerable<LogMessage> messages, CancellationToken token)
         {
-            Directory.CreateDirectory(_path);
-
+            
             foreach (var group in messages.GroupBy(GetGrouping))
             {
-                var fullName = GetFullName(group.Key);
-                var fileInfo = new FileInfo(fullName);
-                if (_maxFileSize > 0 && fileInfo.Exists && fileInfo.Length > _maxFileSize)
+               
+                foreach (var item in group)
                 {
-                    return;
-                }
 
-                using (var streamWriter = File.AppendText(fullName))
-                {
-                    foreach (var item in group)
+                    try
                     {
-                        
-                        try
-                        {
-                            string StackTraces = "";
-                            string ExceptionMessages = "";
-                            string _categoryName = item.CategoryName;
-                            Type typeObj = item.MethodBase != null ? item.MethodBase.DeclaringType : item.Type;
+                        string StackTraces = "";
+                        string ExceptionMessages = "";
+                        string _categoryName = item.CategoryName;
+                        Type typeObj = typeof(BatchingLoggerProvider);
+
+                        if (item.Type != null && item.Type.Name != "Object")
+                            typeObj = item.Type;
+                        else if (item.TypeTState != null && item.TypeTState.Name != "Object")
+                            typeObj = item.TypeTState;
+                        else if (item.MethodBase != null && item.MethodBase.DeclaringType.Name != "Object")
+                            typeObj = item.MethodBase.DeclaringType;
 
                             #region Assembly
-                            Assembly assembly;
+                        Assembly assembly;
+
+                        try
+                        {
+                            if (!string.IsNullOrEmpty(item.CategoryName))
+                                assembly = Assembly.Load(item.CategoryName);
+                            else
+                                assembly = Assembly.GetAssembly(typeObj);
+                        }
+                        catch
+                        {
                             try
                             {
-                                assembly = typeObj != null ? Assembly.GetAssembly(typeObj) : Assembly.GetCallingAssembly();
+                                assembly = Assembly.GetAssembly(typeObj);
                             }
                             catch
                             {
+                                assembly = Assembly.GetCallingAssembly();
+                            }
+                        }
+                         
+                        var SystemName = assembly.GetName().Name;
+                        var SystemVersion = assembly.GetName().Version.ToString();
+                        string methodBaseArgs = "";
+
+                        if (item.MethodBase != null)
+                        {
+                            foreach (var args in item.MethodBase.GetParameters())
+                                methodBaseArgs += args.ToString() + ", ";
+                            if(!string.IsNullOrEmpty(methodBaseArgs))
+                                methodBaseArgs = methodBaseArgs.Substring(0, methodBaseArgs.Length - 2);
+                        }
+
+                        var ClassName = item.MethodBase != null && typeObj != null ? typeObj.Name + "." + item.MethodBase.Name + "(" + methodBaseArgs + ")" : (typeObj != null ? typeObj.Name : SystemName);
+                        #endregion
+
+                        #region Exception
+                        Exception TmpException = item.Exception;
+
+                        if (TmpException != null)
+                        {
+                            while (TmpException != null)
+                            {
+                                string Traces = "";
                                 try
                                 {
-                                    assembly = Assembly.Load(item.CategoryName);
-                                }
-                                catch
-                                {
-                                    assembly = Assembly.GetCallingAssembly();
-                                }
-                            }
-
-
-                            var SystemName = assembly.GetName().Name;
-                            var SystemVersion = assembly.GetName().Version.ToString();
-                            string methodBaseArgs = "";
-
-                            if (item.MethodBase != null)
-                            {
-                                foreach (var args in item.MethodBase.GetParameters())
-                                    methodBaseArgs += args.ToString() + ", ";
-                                methodBaseArgs = methodBaseArgs.Substring(0, methodBaseArgs.Length - 2);
-                            }
-
-                            var ClassName = item.MethodBase != null && typeObj != null ? typeObj.Name + "." + item.MethodBase.Name + "(" + methodBaseArgs + ")" : (typeObj != null ? typeObj.Name : SystemName);
-                            #endregion
-
-                            #region Exception
-                            Exception TmpException = item.Exception;
-
-                            if (TmpException != null)
-                            {
-                                while (TmpException != null)
-                                {
-                                    string Traces = "";
-                                    try
+                                    StackFrame[] trace = new StackTrace(TmpException, true).GetFrames();
+                                    if (trace != null)
                                     {
-                                        StackFrame[] trace = new StackTrace(TmpException, true).GetFrames();
-                                        if (trace != null)
+                                        foreach (StackFrame stack in trace)
                                         {
-                                            foreach (StackFrame stack in trace)
+                                            if (stack.GetFileLineNumber() > 0 && stack.GetMethod() != null)
                                             {
-                                                if (stack.GetFileLineNumber() > 0 && stack.GetMethod() != null)
-                                                {
-                                                    Traces += $"--> METHOD: {stack.GetMethod().Name} ({stack.GetFileLineNumber()},{stack.GetFileColumnNumber()}) ";
-                                                }
+                                                Traces += $"--> METHOD: {stack.GetMethod().Name} ({stack.GetFileLineNumber()},{stack.GetFileColumnNumber()}) ";
                                             }
                                         }
                                     }
-                                    catch
-                                    {
-                                        //
-                                    }
-                                    ExceptionMessages += TmpException.Message + " ";
-                                    StackTraces += String.IsNullOrEmpty(Traces) ? TmpException.StackTrace : Traces;
-                                    TmpException = TmpException.InnerException;
                                 }
+                                catch
+                                {
+                                    //
+                                }
+                                ExceptionMessages += TmpException.Message + " ";
+                                StackTraces += String.IsNullOrEmpty(Traces) ? TmpException.StackTrace : Traces;
+                                TmpException = TmpException.InnerException;
                             }
-                            #endregion
+                        }
+                        #endregion
 
-                            
-                            using (StreamWriter sw = File.AppendText(fullName))
+                        string pathExe = Path.Combine(ClearPath(Path.Combine(Path.GetDirectoryName(assembly.GetName().CodeBase))), "LOGS");
+
+                        try
+                        {
+                            _path = ClearPath(_path);
+                            Directory.CreateDirectory(_path);
+                        }
+                        catch
+                        {
+                            _path = ClearPath(pathExe);
+                            Directory.CreateDirectory(_path);
+                        }
+
+                        var fullName = GetFullName(group.Key);
+                        var fileInfo = new FileInfo(fullName);
+                        bool writeFile = true;
+                        if (_maxFileSize > 0 && fileInfo.Exists && fileInfo.Length > _maxFileSize)
+                        {
+                            writeFile = false;
+                        }
+
+                        if (writeFile)
+                        {
+                            using (var streamWriter = File.AppendText(fullName))
                             {
                                 #region StreamWriter
                                 string messageToSave;
                                 if (!string.IsNullOrEmpty(item.Message))
                                 {
                                     messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + item.DebugLevel + " | " + SystemVersion + " | " + ClassName + " | " + FixString(item.Message);
-                                    await sw.WriteLineAsync(messageToSave);
+                                    await streamWriter.WriteLineAsync(messageToSave);
                                     if (Environment.UserInteractive)
                                     {
                                         Console.WriteLine(messageToSave);
@@ -218,7 +267,7 @@ namespace Afonsoft.Logger.Internal
                                 {
                                     //|  INFORMATION  |
                                     messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "EXCEPTION    | " + SystemVersion + " | " + ClassName + " | " + FixString(ExceptionMessages);
-                                    await sw.WriteLineAsync(messageToSave);
+                                    await streamWriter.WriteLineAsync(messageToSave);
                                     if (Environment.UserInteractive)
                                     {
                                         Console.WriteLine(messageToSave);
@@ -229,7 +278,7 @@ namespace Afonsoft.Logger.Internal
                                 if (!String.IsNullOrEmpty(StackTraces))
                                 {
                                     messageToSave = DateTime.Now.ToString("HH:mm:ss") + " | " + "STACK        | " + SystemVersion + " | " + ClassName + " | " + FixString(StackTraces);
-                                    await sw.WriteLineAsync(messageToSave);
+                                    await streamWriter.WriteLineAsync(messageToSave);
                                     if (Environment.UserInteractive)
                                     {
                                         Console.WriteLine(messageToSave);
@@ -238,44 +287,46 @@ namespace Afonsoft.Logger.Internal
                                 }
                                 #endregion
                             }
+                        }
 
-                            #region EventView only in FW4.7
-                            if (string.IsNullOrWhiteSpace(SystemName) && typeObj != null)
-                                SystemName = item.MethodBase != null ? typeObj.Name : SystemName;
+                        #region EventView only in FW4.7
+                        if (string.IsNullOrWhiteSpace(SystemName) && typeObj != null)
+                            SystemName = item.MethodBase != null ? typeObj.Name : SystemName;
 
-                            if (string.IsNullOrWhiteSpace(SystemName))
-                                SystemName = "Afonsoft.Logger";
+                        if (string.IsNullOrWhiteSpace(SystemName))
+                            SystemName = "Afonsoft.Logger";
 
-                            if (CheckSourceExists(SystemName, SystemName))
+                        if (CheckSourceExists(SystemName, SystemName))
+                        {
+                            if (!string.IsNullOrEmpty(item.Message))
                             {
-                                if (!string.IsNullOrEmpty(item.Message))
-                                {
-#if NET47 
+#if NET47
                                     EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(item.Message), EventLogEntryType.Information);
 #endif
-                                }
+                            }
 
-                                if (!string.IsNullOrEmpty(StackTraces))
-                                {
-#if NET47 
+                            if (!string.IsNullOrEmpty(StackTraces))
+                            {
+#if NET47
                                     EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(StackTraces), EventLogEntryType.Warning);
 #endif
-                                }
+                            }
 
-                                if (!string.IsNullOrEmpty(ExceptionMessages))
-                                {
-#if NET47 
+                            if (!string.IsNullOrEmpty(ExceptionMessages))
+                            {
+#if NET47
                                     EventLog.WriteEntry(SystemName, EnsureLogMessageLimit(ExceptionMessages), EventLogEntryType.Error);
 #endif
-                                }
                             }
-                            #endregion
                         }
-                        catch
-                        {
-                            //ignore
-                        }
+                        #endregion
+
                     }
+                    catch
+                    {
+                        //ignore
+                    }
+
                 }
             }
 
@@ -353,17 +404,24 @@ namespace Afonsoft.Logger.Internal
         /// </summary>
         protected void RollFiles()
         {
-            if (_maxRetainedFiles > 0)
+            try
             {
-                var files = new DirectoryInfo(_path)
-                    .GetFiles(_fileName + "*")
-                    .OrderByDescending(f => f.Name)
-                    .Skip(_maxRetainedFiles.Value);
-
-                foreach (var item in files)
+                if (_maxRetainedFiles > 0)
                 {
-                    item.Delete();
+                    var files = new DirectoryInfo(_path)
+                        .GetFiles(_fileName + "*")
+                        .OrderByDescending(f => f.Name)
+                        .Skip(_maxRetainedFiles.Value);
+
+                    foreach (var item in files)
+                    {
+                        item.Delete();
+                    }
                 }
+            }
+            catch
+            {
+                //Ignore
             }
         }
 
@@ -385,9 +443,9 @@ namespace Afonsoft.Logger.Internal
                     {
                         await WriteMessagesAsync(_currentBatch, _cancellationTokenSource.Token);
                     }
-                    catch
+                    catch(Exception)
                     {
-                        // ignored
+                        RollFiles();
                     }
 
                     _currentBatch.Clear();

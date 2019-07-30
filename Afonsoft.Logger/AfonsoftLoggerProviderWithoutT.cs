@@ -55,7 +55,7 @@ namespace Afonsoft.Logger
         /// <returns></returns>
         public override ILogger CreateLogger(string categoryName)
         {
-            return new Afonsoft.Logger.Internal.Logger(this, categoryName);
+            return new Afonsoft.Logger.Logger(this, categoryName);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Afonsoft.Logger
         /// <returns></returns>
         public override ILogger<T1> CreateLogger<T1>()
         {
-            return new Afonsoft.Logger.Internal.Logger<T1>(this);
+            return new Afonsoft.Logger.Logger<T1>(this);
         }
     }
 }

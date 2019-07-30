@@ -31,6 +31,11 @@ namespace Afonsoft.Logger.Internal
         public Type Type { get; set; }
 
         /// <summary>
+        /// TypeTState
+        /// </summary>
+        public Type TypeTState { get; set; }
+
+        /// <summary>
         /// Type
         /// </summary>
         public string DebugLevel { get; set; }

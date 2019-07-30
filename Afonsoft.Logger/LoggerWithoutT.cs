@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Afonsoft.Logger.Internal;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions.Internal;
 using Newtonsoft.Json;
 using System;
@@ -7,25 +8,39 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Afonsoft.Logger.Internal
+namespace Afonsoft.Logger
 {
     /// <summary>
     /// new Afonsoft.Logger.LoggerProvider<Program>().CreateLogger()
     /// Classe para efetuar o Log
     /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
-    public class Logger<T> : ILogger<T>
+    public class Logger : ILogger
     {
         private string _categoryName;
         private BatchingLoggerProvider _provider;
 
-        private Logger()
+        /// <summary>
+        /// Logger
+        /// </summary>
+        public Logger()
         {
-            _categoryName = typeof(T).ToString();
+            _categoryName = typeof(Logger).ToString();
+            _provider = new AfonsoftLoggerProvider();
         }
 
         /// <summary>
         /// Logger
+        /// </summary>
+        /// <param name="categoryName"></param>
+        public Logger(string categoryName)
+        {
+            _provider = new AfonsoftLoggerProvider();
+            _categoryName = categoryName;
+        }
+
+        /// <summary>
+        /// 
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="categoryName"></param>
@@ -35,15 +50,6 @@ namespace Afonsoft.Logger.Internal
             _categoryName = categoryName;
         }
 
-        /// <summary>
-        /// Logger
-        /// </summary>
-        /// <param name="provider"></param>
-        public Logger(BatchingLoggerProvider provider)
-        {
-            _provider = provider;
-            _categoryName = typeof(T).ToString();
-        }
 
         private void LogFile<TState>(string categoryName, LogLevel logLevel, string message, Exception exception)
         {
@@ -77,11 +83,11 @@ namespace Afonsoft.Logger.Internal
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), Type = typeof(T) });
+                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), Type = typeof(TState), TypeTState = typeof(Logger) });
             }
             catch
             {
-                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = null, Type = typeof(T) });
+                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = null, Type = typeof(TState), TypeTState = typeof(Logger) });
             }
         }
 
@@ -122,13 +128,14 @@ namespace Afonsoft.Logger.Internal
             LogFile<TState>(_categoryName, logLevel, logBuilder.ToString(), exception);
         }
 
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabled;
-        
+
 
         /// <summary>
         /// 
@@ -137,7 +144,6 @@ namespace Afonsoft.Logger.Internal
         /// <param name="state"></param>
         /// <returns></returns>
         public IDisposable BeginScope<TState>(TState state) => _provider.ScopeProvider?.Push(state);
-
 
         private string MyFormatter<TState>(TState state, Exception exception)
         {

@@ -18,6 +18,8 @@ namespace Afonsoft.Logger
         public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder)
         {
             builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider<T>>();
+            builder.Services.AddSingleton(typeof(ILogger<>), typeof(Afonsoft.Logger.Logger<>));
+            builder.Services.AddSingleton(typeof(ILogger), typeof(Afonsoft.Logger.Logger));
             return builder;
         }
 
@@ -48,6 +50,8 @@ namespace Afonsoft.Logger
         public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder)
         {
             builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>();
+            builder.Services.AddSingleton(typeof(ILogger<>), typeof(Afonsoft.Logger.Logger<>));
+            builder.Services.AddSingleton(typeof(ILogger), typeof(Afonsoft.Logger.Logger));
             return builder;
         }
 
@@ -69,57 +73,7 @@ namespace Afonsoft.Logger
             return builder;
         }
 
-        /// <summary>
-        /// ILoggerFactory AddAfonsoftLogger
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="loggerFactory"></param>
-        /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>());
-            return loggerFactory;
-        }
-
-        /// <summary>
-        /// ILoggerFactory AddAfonsoftLogger
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="loggerFactory"></param>
-        /// <param name="configure"></param>
-        /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger<T>(this ILoggerFactory loggerFactory, Func<AfonsoftLoggerOptions> configure)
-        {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider<T>(configure));
-            return loggerFactory;
-        }
-
-
-        /// <summary>
-        /// ILoggerFactory AddAfonsoftLogger
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider());
-            return loggerFactory;
-        }
-
-        /// <summary>
-        /// ILoggerFactory AddAfonsoftLogger
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="configure"></param>
-        /// <returns></returns>
-        public static ILoggerFactory AddAfonsoftLogger(this ILoggerFactory loggerFactory, Func<AfonsoftLoggerOptions> configure)
-        {
-            loggerFactory.AddProvider(new AfonsoftLoggerProvider(configure));
-            return loggerFactory;
-        }
-
-
-
+        
         /// <summary>
         /// IServiceCollection AddAfonsoftLogging
         /// </summary>

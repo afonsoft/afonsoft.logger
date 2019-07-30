@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Afonsoft.Logger.Internal;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions.Internal;
 using Newtonsoft.Json;
 using System;
@@ -7,27 +8,41 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Afonsoft.Logger.Internal
+namespace Afonsoft.Logger
 {
     /// <summary>
     /// new Afonsoft.Logger.LoggerProvider<Program>().CreateLogger()
     /// Classe para efetuar o Log
     /// HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
     /// </summary>
-    public class Logger : ILogger
+    public class Logger<T> : ILogger<T>
     {
         private string _categoryName;
         private BatchingLoggerProvider _provider;
 
-        private Logger()
-        {
-            _categoryName = "ILogger";
-        }
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="repository"></param>
+        public Logger()
+        {
+            _provider = new AfonsoftLoggerProvider<T>();
+            _categoryName = typeof(T).ToString();
+        }
+
+        /// <summary>
+        /// Logger
+        /// </summary>
+        /// <param name="categoryName"></param>
+        public Logger(string categoryName)
+        {
+            _provider = new AfonsoftLoggerProvider<T>();
+            _categoryName = categoryName;
+        }
+
+        /// <summary>
+        /// Logger
+        /// </summary>
+        /// <param name="provider"></param>
         /// <param name="categoryName"></param>
         public Logger(BatchingLoggerProvider provider, string categoryName)
         {
@@ -35,6 +50,15 @@ namespace Afonsoft.Logger.Internal
             _categoryName = categoryName;
         }
 
+        /// <summary>
+        /// Logger
+        /// </summary>
+        /// <param name="provider"></param>
+        public Logger(BatchingLoggerProvider provider)
+        {
+            _provider = provider;
+            _categoryName = typeof(T).ToString();
+        }
 
         private void LogFile<TState>(string categoryName, LogLevel logLevel, string message, Exception exception)
         {
@@ -68,11 +92,11 @@ namespace Afonsoft.Logger.Internal
             try
             {
                 StackTrace stackTrace = new StackTrace();
-                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), Type = typeof(TState) });
+                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod(), Type = typeof(T), TypeTState = typeof(TState) });
             }
             catch
             {
-                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = null, Type = typeof(TState) });
+                _provider.AddMessage(timestamp, new LogMessage() { Timestamp = timestamp, DebugLevel = type, CategoryName = categoryName, Exception = exception, Message = message, MethodBase = null, Type = typeof(T), TypeTState = typeof(TState) });
             }
         }
 
@@ -113,14 +137,13 @@ namespace Afonsoft.Logger.Internal
             LogFile<TState>(_categoryName, logLevel, logBuilder.ToString(), exception);
         }
 
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabled;
-
+        
 
         /// <summary>
         /// 
@@ -129,6 +152,7 @@ namespace Afonsoft.Logger.Internal
         /// <param name="state"></param>
         /// <returns></returns>
         public IDisposable BeginScope<TState>(TState state) => _provider.ScopeProvider?.Push(state);
+
 
         private string MyFormatter<TState>(TState state, Exception exception)
         {

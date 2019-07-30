@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afonsoft.Logger", "Afonsoft.Logger\Afonsoft.Logger.csproj", "{C1706EF3-3A5D-4E75-9FA0-E125CA63A117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Afonsoft.Logger", "Afonsoft.Logger\Afonsoft.Logger.csproj", "{C1706EF3-3A5D-4E75-9FA0-E125CA63A117}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerConsoleTest", "Logger.Console\LoggerConsoleTest.csproj", "{26D098EE-00C5-4552-B598-B16DD17F69B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerUICoreTest", "LoggerUICoreTest\LoggerUICoreTest.csproj", "{B8523147-78B5-488C-B617-09D11D60CEA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C1706EF3-3A5D-4E75-9FA0-E125CA63A117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1706EF3-3A5D-4E75-9FA0-E125CA63A117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1706EF3-3A5D-4E75-9FA0-E125CA63A117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D098EE-00C5-4552-B598-B16DD17F69B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D098EE-00C5-4552-B598-B16DD17F69B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D098EE-00C5-4552-B598-B16DD17F69B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D098EE-00C5-4552-B598-B16DD17F69B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8523147-78B5-488C-B617-09D11D60CEA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8523147-78B5-488C-B617-09D11D60CEA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8523147-78B5-488C-B617-09D11D60CEA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8523147-78B5-488C-B617-09D11D60CEA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
