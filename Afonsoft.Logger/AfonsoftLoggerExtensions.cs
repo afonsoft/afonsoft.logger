@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace Afonsoft.Logger
@@ -9,6 +10,7 @@ namespace Afonsoft.Logger
     /// </summary>
     public static class AfonsoftLoggerExtensions
     {
+
         /// <summary>
         /// ILoggingBuilder AddAfonsoftLoggerProvider
         /// </summary>
@@ -20,25 +22,30 @@ namespace Afonsoft.Logger
             builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider<T>>();
             builder.Services.AddSingleton(typeof(ILogger<>), typeof(Afonsoft.Logger.Logger<>));
             builder.Services.AddSingleton(typeof(ILogger), typeof(Afonsoft.Logger.Logger));
+            builder.Services.AddSingleton(typeof(IOptions<AfonsoftLoggerOptions>), typeof(AfonsoftLoggerOptions));
+            builder.Services.AddOptions<AfonsoftLoggerOptions>();
             return builder;
         }
 
         /// <summary>
-        /// ILoggingBuilder AddAfonsoftLoggerProvider
+        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="builder"></param>
-        /// <param name="configure">Configure an instance of the <see cref="AfonsoftLoggerOptions" /> to set logging options</param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder, Action<AfonsoftLoggerOptions> configure)
+        public static ILoggingBuilder AddAfonsoftLoggerProvider<T>(this ILoggingBuilder builder, AfonsoftLoggerOptions options)
         {
-            if (configure == null)
+            if (options == null)
             {
-                throw new ArgumentNullException(nameof(configure));
+                throw new ArgumentNullException(nameof(options));
             }
 
-            builder.AddAfonsoftLoggerProvider<T>();
-            builder.Services.Configure(configure);
+            builder.Services.AddSingleton<ILoggerProvider>(new AfonsoftLoggerProvider<T>(options));
+            builder.Services.AddSingleton(typeof(ILogger<>), typeof(Afonsoft.Logger.Logger<>));
+            builder.Services.AddSingleton(typeof(ILogger), typeof(Afonsoft.Logger.Logger));
+            builder.Services.AddSingleton(typeof(IOptions<AfonsoftLoggerOptions>), options);
+            builder.Services.AddOptions<AfonsoftLoggerOptions>();
             return builder;
         }
 
@@ -52,26 +59,33 @@ namespace Afonsoft.Logger
             builder.Services.AddSingleton<ILoggerProvider, AfonsoftLoggerProvider>();
             builder.Services.AddSingleton(typeof(ILogger<>), typeof(Afonsoft.Logger.Logger<>));
             builder.Services.AddSingleton(typeof(ILogger), typeof(Afonsoft.Logger.Logger));
+            builder.Services.AddSingleton(typeof(IOptions<AfonsoftLoggerOptions>), typeof(AfonsoftLoggerOptions));
+            builder.Services.AddOptions<AfonsoftLoggerOptions>();
             return builder;
         }
 
         /// <summary>
-        /// ILoggingBuilder AddAfonsoftLoggerProvider
+        /// 
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="configure">Configure an instance of the <see cref="AfonsoftLoggerOptions" /> to set logging options</param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, Action<AfonsoftLoggerOptions> configure)
+        public static ILoggingBuilder AddAfonsoftLoggerProvider(this ILoggingBuilder builder, AfonsoftLoggerOptions options)
         {
-            if (configure == null)
+            if (options == null)
             {
-                throw new ArgumentNullException(nameof(configure));
+                throw new ArgumentNullException(nameof(options));
             }
 
-            builder.AddAfonsoftLoggerProvider();
-            builder.Services.Configure(configure);
+            builder.Services.AddSingleton<ILoggerProvider>(new AfonsoftLoggerProvider(options));
+            builder.Services.AddSingleton(typeof(IOptions<AfonsoftLoggerOptions>), options);
+            builder.Services.AddSingleton(typeof(ILogger<>), typeof(Afonsoft.Logger.Logger<>));
+            builder.Services.AddSingleton(typeof(ILogger), typeof(Afonsoft.Logger.Logger));
+            builder.Services.AddOptions<AfonsoftLoggerOptions>();
             return builder;
         }
+
+
 
         
         /// <summary>
@@ -112,7 +126,7 @@ namespace Afonsoft.Logger
         /// <param name="services"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services, Action<AfonsoftLoggerOptions> configure)
+        public static IServiceCollection AddAfonsoftLogging<T>(this IServiceCollection services, AfonsoftLoggerOptions configure)
         {
             services.AddLogging(logging =>
             {
@@ -128,7 +142,7 @@ namespace Afonsoft.Logger
         /// <param name="services"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, Action<AfonsoftLoggerOptions> configure)
+        public static IServiceCollection AddAfonsoftLogging(this IServiceCollection services, AfonsoftLoggerOptions configure)
         {
             services.AddLogging(logging =>
             {

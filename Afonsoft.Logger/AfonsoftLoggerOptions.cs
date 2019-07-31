@@ -1,4 +1,6 @@
 ﻿using Afonsoft.Logger.Rolling;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Reflection;
@@ -8,7 +10,7 @@ namespace Afonsoft.Logger
     /// <summary>
     /// Options for file logging.
     /// </summary>
-    public class AfonsoftLoggerOptions 
+    public class AfonsoftLoggerOptions : IOptions<AfonsoftLoggerOptions>
     {
         private int? _fileSizeLimit = 40 * 1024 * 1024;
         private int? _retainedFileCountLimit = 2;
@@ -73,6 +75,11 @@ namespace Afonsoft.Logger
         /// Gets or sets value indicating if logger accepts and queues writes.
         /// </summary>
         public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        /// LogLevel
+        /// </summary>
+        public LogLevel LogLevel { get; set; } = LogLevel.Trace;
 
         /// <summary>
         /// Gets or sets a value indicating whether scopes should be included in the message.
@@ -154,5 +161,10 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <returns></returns>
         public string LogDirectory { get; set; } = Path.Combine(Path.GetDirectoryName(Assembly.GetCallingAssembly().GetName().CodeBase), "LOGS");
+
+        /// <summary>
+        /// Value
+        /// </summary>
+        public AfonsoftLoggerOptions Value => this;
     }
 }

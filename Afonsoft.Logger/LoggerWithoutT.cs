@@ -30,23 +30,13 @@ namespace Afonsoft.Logger
         }
 
         /// <summary>
-        /// Logger
-        /// </summary>
-        /// <param name="categoryName"></param>
-        public Logger(string categoryName)
-        {
-            _provider = new AfonsoftLoggerProvider();
-            _categoryName = categoryName;
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="categoryName"></param>
-        public Logger(BatchingLoggerProvider provider, string categoryName)
+        public Logger(ILoggerProvider provider, string categoryName)
         {
-            _provider = provider;
+            _provider = provider as BatchingLoggerProvider;
             _categoryName = categoryName;
         }
 
@@ -134,8 +124,15 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
-        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabled;
+        public bool IsEnabled(LogLevel logLevel)
+        {
 
+            if (_provider.IsEnabled && logLevel != LogLevel.None)
+            {
+                return logLevel >= _provider.LogLevel;
+            }
+            return false;
+        }
 
         /// <summary>
         /// 

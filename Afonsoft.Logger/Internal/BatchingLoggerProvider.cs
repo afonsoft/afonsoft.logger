@@ -71,6 +71,7 @@ namespace Afonsoft.Logger.Internal
             _maxFileSize = loggerOptions.FileSizeLimit;
             _maxRetainedFiles = loggerOptions.RetainedFileCountLimit;
             _periodicity = loggerOptions.Periodicity;
+            LogLevel = loggerOptions.LogLevel;
 
             _optionsChangeToken = options.OnChange(UpdateOptions);
             UpdateOptions(options.CurrentValue);
@@ -81,12 +82,18 @@ namespace Afonsoft.Logger.Internal
         /// </summary>
         public bool IsEnabled { get; private set; }
 
+        /// <summary>
+        /// LogLevel
+        /// </summary>
+        public LogLevel LogLevel { get; private set; }
+
+
         private void UpdateOptions(AfonsoftLoggerOptions options)
         {
             var oldIsEnabled = IsEnabled;
             IsEnabled = options.IsEnabled;
             _includeScopes = options.IncludeScopes;
-
+            LogLevel = options.LogLevel;
             if (oldIsEnabled != IsEnabled)
             {
                 if (IsEnabled)

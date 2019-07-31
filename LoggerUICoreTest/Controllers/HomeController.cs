@@ -17,18 +17,18 @@ namespace LoggerUICoreTest.Controllers
         {
            
             _logger1 = logger1;
-            _logger1.LogInformation("TESTE AFONSO 1");
+            _logger1.LogError("TESTE AFONSO 1");
 
         }
         public IActionResult Index()
         {
-            _logger1.LogInformation("TESTE AFONSO Index");
+            _logger1.LogError("TESTE AFONSO Index");
             return View();
         }
 
         public IActionResult Privacy()
         {
-            _logger1.LogInformation("TESTE AFONSO Privacy");
+            _logger1.LogError("TESTE AFONSO Privacy");
             return View();
         }
 
