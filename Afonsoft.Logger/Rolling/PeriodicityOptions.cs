@@ -24,6 +24,10 @@ namespace Afonsoft.Logger.Rolling
         /// <summary>
         /// Monthly
         /// </summary>
-        Monthly
+        Monthly,
+        /// <summary>
+        /// None
+        /// </summary>
+        None
     }
 }

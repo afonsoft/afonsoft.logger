@@ -11,23 +11,20 @@ namespace Afonsoft.Logger
     /// </summary>
     public class AfonsoftLoggerProvider<T> : BatchingLoggerProvider
     {
-        private static AfonsoftLoggerOptions afonsoftLoggerOptions = new AfonsoftLoggerOptions();
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
         /// <param name="options"></param>
         public AfonsoftLoggerProvider(IOptionsMonitor<AfonsoftLoggerOptions> options) : base(options)
         {
-            afonsoftLoggerOptions = options.CurrentValue;
         }
 
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
         /// <param name="options"></param>
-        public AfonsoftLoggerProvider(Func<AfonsoftLoggerOptions> options): base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(options.Invoke()))
+        public AfonsoftLoggerProvider(Action<AfonsoftLoggerOptions> options): base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(Build(options)))
         {
-            afonsoftLoggerOptions = options.Invoke();
         }
 
         /// <summary>
@@ -35,18 +32,21 @@ namespace Afonsoft.Logger
         /// </summary>
         /// <param name="options"></param>
         public AfonsoftLoggerProvider(AfonsoftLoggerOptions options) : base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(options))
-        {
-            afonsoftLoggerOptions = options;
+        { 
         }
 
         /// <summary>
         /// AfonsoftLoggerProvider
         /// </summary>
-        public AfonsoftLoggerProvider() : base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(afonsoftLoggerOptions))
-        {
-  
+        public AfonsoftLoggerProvider() : base(new OptionsWrapperMonitor<AfonsoftLoggerOptions>(new AfonsoftLoggerOptions()))
+        { 
         }
-
+        private static AfonsoftLoggerOptions Build(Action<AfonsoftLoggerOptions> configure)
+        {
+            var expr = new AfonsoftLoggerOptions();
+            configure(expr);
+            return expr;
+        }
         /// <summary>
         /// CreateLogger
         /// </summary>

@@ -147,7 +147,7 @@ namespace Afonsoft.Logger
         public string Extension
         {
             get { return _extension; }
-            set { _extension = value?.TrimStart('.'); }
+            set { _extension = value?.TrimStart('.').ToLower(); }
         }
 
         /// <summary>

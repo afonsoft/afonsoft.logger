@@ -33,7 +33,11 @@ namespace LoggerUICoreTest
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddAfonsoftLogging(new AfonsoftLoggerOptions() { LogLevel = LogLevel.Error });
+            services.AddAfonsoftLogging(c =>
+            {
+                c.LogLevel = LogLevel.Error;
+                c.Extension = "TXT";
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

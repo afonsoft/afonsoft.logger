@@ -17,7 +17,7 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder,Afonsoft.Logger.AfonsoftLoggerOptions)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider``1(Microsoft.Extensions.Logging.ILoggingBuilder,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             
             </summary>
@@ -33,7 +33,7 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder,Afonsoft.Logger.AfonsoftLoggerOptions)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLoggerProvider(Microsoft.Extensions.Logging.ILoggingBuilder,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             
             </summary>
@@ -56,7 +56,7 @@
             <param name="services"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Afonsoft.Logger.AfonsoftLoggerOptions)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             IServiceCollection AddAfonsoftLogging
             </summary>
@@ -65,7 +65,7 @@
             <param name="configure"></param>
             <returns></returns>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection,Afonsoft.Logger.AfonsoftLoggerOptions)">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerExtensions.AddAfonsoftLogging(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             IServiceCollection AddAfonsoftLogging
             </summary>
@@ -167,7 +167,7 @@
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(System.Func{Afonsoft.Logger.AfonsoftLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider.#ctor(System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             AfonsoftLoggerProvider
             </summary>
@@ -210,7 +210,7 @@
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(System.Func{Afonsoft.Logger.AfonsoftLoggerOptions})">
+        <member name="M:Afonsoft.Logger.AfonsoftLoggerProvider`1.#ctor(System.Action{Afonsoft.Logger.AfonsoftLoggerOptions})">
             <summary>
             AfonsoftLoggerProvider
             </summary>
@@ -460,6 +460,11 @@
         <member name="F:Afonsoft.Logger.Rolling.PeriodicityOptions.Monthly">
             <summary>
             Monthly
+            </summary>
+        </member>
+        <member name="F:Afonsoft.Logger.Rolling.PeriodicityOptions.None">
+            <summary>
+            None
             </summary>
         </member>
     </members>

@@ -21,7 +21,7 @@ namespace Afonsoft.Logger.Internal
     public abstract class BatchingLoggerProvider : ILoggerProvider, ISupportExternalScope
     {
         private const int MaxEventLogEntryLength = 30000;
-        private readonly List<LogMessage> _currentBatch = new List<LogMessage>();
+        private readonly IList<LogMessage> _currentBatch = new List<LogMessage>();
         private readonly TimeSpan _interval;
         private readonly int? _queueSize;
         private readonly int? _batchSize;
@@ -245,7 +245,7 @@ namespace Afonsoft.Logger.Internal
                             Directory.CreateDirectory(_path);
                         }
 
-                        var fullName = GetFullName(group.Key);
+                        var fullName = GetFullName(group.Key, SystemName);
                         var fileInfo = new FileInfo(fullName);
                         bool writeFile = true;
                         if (_maxFileSize > 0 && fileInfo.Exists && fileInfo.Length > _maxFileSize)
@@ -385,7 +385,7 @@ namespace Afonsoft.Logger.Internal
             return logMessage;
         }
 
-        private string GetFullName((int Year, int Month, int Day, int Hour, int Minute) group)
+        private string GetFullName((int Year, int Month, int Day, int Hour, int Minute) group, string systemName)
         {
             switch (_periodicity)
             {
@@ -397,6 +397,8 @@ namespace Afonsoft.Logger.Internal
                     return Path.Combine(_path, $"{_fileName}{group.Year:0000}-{group.Month:00}-{group.Day:00}.{_extension}");
                 case PeriodicityOptions.Monthly:
                     return Path.Combine(_path, $"{_fileName}{group.Year:0000}-{group.Month:00}.{_extension}");
+                case PeriodicityOptions.None:
+                    return Path.Combine(_path, $"{_fileName}{systemName}.{_extension}");
             }
             throw new InvalidDataException("Invalid periodicity");
         }

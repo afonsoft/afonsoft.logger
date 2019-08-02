@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Afonsoft.Logger", "Afonsoft.Logger\Afonsoft.Logger.csproj", "{C1706EF3-3A5D-4E75-9FA0-E125CA63A117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerConsoleTest", "Logger.Console\LoggerConsoleTest.csproj", "{26D098EE-00C5-4552-B598-B16DD17F69B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerConsoleTest", "LoggerConsoleTest\LoggerConsoleTest.csproj", "{26D098EE-00C5-4552-B598-B16DD17F69B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerUICoreTest", "LoggerUICoreTest\LoggerUICoreTest.csproj", "{B8523147-78B5-488C-B617-09D11D60CEA9}"
 EndProject
