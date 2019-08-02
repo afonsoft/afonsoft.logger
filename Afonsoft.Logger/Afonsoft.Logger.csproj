@@ -16,7 +16,15 @@ HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE</Descrip
     <PackageId>Afonsoft.Logger</PackageId>
     <PackageReleaseNotes>Ferramenta para criação de log com o Microsoft.Extensions.Logging
 Tool for logging with Microsoft.Extensions.Logging
-new Afonsoft.Logger.LoggerProvider&lt;Program&gt;().CreateLogger()
+
+ var log = new Afonsoft.Logger.AfonsoftLoggerProvider&lt;Program&gt;(c=&gt; c.Extension="log").CreateLogger();
+
+ services.AddAfonsoftLogging(c =&gt;
+            {
+                c.LogLevel = LogLevel.Error;
+                c.Extension = "TXT";
+            });
+
 HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
 https://www.afonsoft.com.br</PackageReleaseNotes>
     <Version>2019.8.2</Version>

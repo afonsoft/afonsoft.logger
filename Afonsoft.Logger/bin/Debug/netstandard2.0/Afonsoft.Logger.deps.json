@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Afonsoft.Logger/2019.7.32": {
+      "Afonsoft.Logger/2019.8.2": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "2.2.0",
           "Microsoft.Extensions.Logging.Abstractions": "2.2.0",
@@ -168,7 +168,7 @@
     }
   },
   "libraries": {
-    "Afonsoft.Logger/2019.7.32": {
+    "Afonsoft.Logger/2019.8.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
