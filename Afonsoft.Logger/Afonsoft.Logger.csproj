@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net47;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net47;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <Authors>Afonso Dutra Nogueira Filho</Authors>
@@ -27,11 +27,11 @@ Tool for logging with Microsoft.Extensions.Logging
 
 HH:MM:SS | EXCEPTION | VERSION | CLASS NAME AND METHOD | ERROR MENSSAGE
 https://www.afonsoft.com.br</PackageReleaseNotes>
-    <Version>2019.8.2</Version>
+    <Version>2019.8.26</Version>
     <PackageProjectUrl>https://github.com/afonsoft/afonsoft.logger</PackageProjectUrl>
     <NeutralLanguage>pt-BR</NeutralLanguage>
-    <AssemblyVersion>2019.8.2</AssemblyVersion>
-    <FileVersion>2019.8.2</FileVersion>
+    <AssemblyVersion>2019.8.26</AssemblyVersion>
+    <FileVersion>2019.8.26</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -41,9 +41,41 @@ https://www.afonsoft.com.br</PackageReleaseNotes>
     <DocumentationFile>bin\Debug\netstandard2.0\Afonsoft.Logger.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+	  <DefineConstants>NET45;NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
+	  <DefineConstants>NET40;NETFULL</DefineConstants>
+  </PropertyGroup>
+   <PropertyGroup Condition=" '$(TargetFramework)' == 'net47'">
+	  <DefineConstants>NET47;NETFULL;NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+	<DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2'">
+	  <DefineConstants>NETCORE;NETSTANDARD;</DefineConstants>
+  </PropertyGroup>
+   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
+	  <DefineConstants>NETCORE;NETSTANDARD;</DefineConstants>
+  </PropertyGroup>  
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+<ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+<ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+<ItemGroup Condition="'$(TargetFramework)'=='net47'">
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
   </ItemGroup>
 </Project>

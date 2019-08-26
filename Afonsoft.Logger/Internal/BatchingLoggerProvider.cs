@@ -1,6 +1,8 @@
 ﻿using Afonsoft.Logger.Rolling;
+#if NETCORE
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+#endif
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,7 +20,11 @@ namespace Afonsoft.Logger.Internal
     /// <summary>
     /// BatchingLoggerProvider
     /// </summary>
+#if NETCORE
     public abstract class BatchingLoggerProvider : ILoggerProvider, ISupportExternalScope
+#else
+        public abstract class BatchingLoggerProvider 
+#endif
     {
         private const int MaxEventLogEntryLength = 30000;
         private readonly IList<LogMessage> _currentBatch = new List<LogMessage>();
@@ -162,7 +168,7 @@ namespace Afonsoft.Logger.Internal
                         else if (item.MethodBase != null && item.MethodBase.DeclaringType.Name != "Object")
                             typeObj = item.MethodBase.DeclaringType;
 
-                            #region Assembly
+#region Assembly
                         Assembly assembly;
 
                         try
@@ -197,9 +203,9 @@ namespace Afonsoft.Logger.Internal
                         }
 
                         var ClassName = item.MethodBase != null && typeObj != null ? typeObj.Name + "." + item.MethodBase.Name + "(" + methodBaseArgs + ")" : (typeObj != null ? typeObj.Name : SystemName);
-                        #endregion
+#endregion
 
-                        #region Exception
+#region Exception
                         Exception TmpException = item.Exception;
 
                         if (TmpException != null)
@@ -230,7 +236,7 @@ namespace Afonsoft.Logger.Internal
                                 TmpException = TmpException.InnerException;
                             }
                         }
-                        #endregion
+#endregion
 
                         string pathExe = Path.Combine(ClearPath(Path.Combine(Path.GetDirectoryName(assembly.GetName().CodeBase))), "LOGS");
 
@@ -257,7 +263,7 @@ namespace Afonsoft.Logger.Internal
                         {
                             using (var streamWriter = File.AppendText(fullName))
                             {
-                                #region StreamWriter
+#region StreamWriter
                                 string messageToSave;
                                 if (!string.IsNullOrEmpty(item.Message))
                                 {
@@ -292,11 +298,11 @@ namespace Afonsoft.Logger.Internal
                                         Trace.WriteLine(messageToSave);
                                     }
                                 }
-                                #endregion
+#endregion
                             }
                         }
 
-                        #region EventView only in FW4.7
+#region EventView only in FW4.7
                         if (string.IsNullOrWhiteSpace(SystemName) && typeObj != null)
                             SystemName = item.MethodBase != null ? typeObj.Name : SystemName;
 
@@ -326,7 +332,7 @@ namespace Afonsoft.Logger.Internal
 #endif
                             }
                         }
-                        #endregion
+#endregion
 
                     }
                     catch
@@ -342,7 +348,7 @@ namespace Afonsoft.Logger.Internal
 
         private bool CheckSourceExists(string source, string eventLogName)
         {
-#if NET47 
+#if NET47
             if (EventLog.SourceExists(source))
             {
                 EventLog evLog = new EventLog { Source = source };
